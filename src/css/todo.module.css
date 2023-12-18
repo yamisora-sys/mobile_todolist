@@ -1,0 +1,25 @@
+.container{
+    flex: 1;
+    background-color: aliceblue;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: aqua;
+    height: 30%;
+    border-radius: 0 0 100px 100px;
+}
+
+.headerText{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.headerIcon{
+    margin-top: 30px;
+    
+}

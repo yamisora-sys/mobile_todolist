@@ -1,17 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import styles from '@css/home.module.css';
 export default function HomeScreen() {
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={
+            styles.container
+        }>
             <View style={styles.task}>
                 <View>
-                    <Text style={styles.titleText}>My Tasks</Text>
-                    <Text style={styles.status}><Icon name='check-circle' size={25} color="#ffffff"/> 2/4 tasks completed</Text>
+                    <Text style={styles.titleText}>Today's task</Text>
+                    <View style={styles.status}>
+                        <Icon name='check-circle' size={25} color="#ffffff"/>
+                        <Text>2/4 tasks completed</Text>
+                    </View>
                 </View>
                 <View style={styles.taskList}>
-                    <Text style={styles.more}><Icon name='chevron-right' size={40} color="#ffffff"/></Text>
+                    <Icon name='chevron-right' size={40} color="#ffffff"/>
                 </View>
             </View>
             <View style={styles.daily}>
@@ -32,50 +37,3 @@ export default function HomeScreen() {
         </ScrollView>
     );
     }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#838383',
-    },
-    task: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 20,
-        backgroundColor: '#a141a4',
-        borderRadius: 10,
-        margin: 20,
-    },
-    status: {
-        flex: 1,
-        flexDirection: 'row',
-        color: '#ffffff',
-    },
-    titleText: {
-        flex: 1,
-        fontWeight: 'bold',
-        color: '#ffffff',
-        fontSize: 25,
-    },
-    daily: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: '80%',
-        backgroundColor: '#f7ff65',
-        padding: 20,
-        borderRadius: 10,
-        marginLeft: 20,
-        marginRight: 20,
-        
-    },
-    more: {
-        alignItems: 'center',
-    },
-    head: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        margin: 20,
-    }
-});
