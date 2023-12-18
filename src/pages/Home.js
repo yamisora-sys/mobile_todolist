@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginLeft: 20,
         marginRight: 20,
-        
+
     },
     more: {
         alignItems: 'center',
