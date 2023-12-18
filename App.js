@@ -5,11 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import HomeScreen from './src/Home';
-import Journal from './src/Journal';
-import Daily from './src/Daily';
-import Profile from './src/Profile';
-import ToDo from './src/ToDo';
+import HomeScreen from '@pages/Home';
+import Journal from '@pages/Journal';
+import Daily from '@pages/Daily';
+import Profile from '@pages/Profile';
+import ToDo from '@pages/ToDo';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
