@@ -20,3 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get("todos", [TodoController::class, "AllTodos"]);
+Route::post("add-todo", [TodoController::class, "addTodo"]);
+Route::post("update-todo", [TodoController::class, "updateTodo"]);
+Route::post("register", [UserController::class, "register"]);
+Route::post("add-daily", [DailyController::class, "addDaily"]);
