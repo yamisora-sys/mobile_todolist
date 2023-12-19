@@ -1,4 +1,4 @@
-//login and register page
+//login page
 import React, { Component } from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
