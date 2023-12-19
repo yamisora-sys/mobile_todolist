@@ -33,6 +33,7 @@ module.exports = function(api) {
             '@api': './src/api',
             '@img': './src/img',
             '@css': './src/css',
+            '@context': './src/context',
           },
         },
       ],

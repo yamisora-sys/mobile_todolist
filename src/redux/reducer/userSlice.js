@@ -7,7 +7,6 @@ export const USER_DATA = 'user';
 export const storeData = async (key, value) => {
     try{
         const jsonValue = JSON.stringify(value);
-        console.log(10, jsonValue);
         await AsyncStorage.setItem(key, jsonValue);
     }
     catch(e){
@@ -19,6 +18,7 @@ export const getData = async (key) => {
     try{
         const jsonValue = await AsyncStorage.getItem(key);
         return jsonValue != null ? JSON.parse(jsonValue) : null;
+        console.log(jsonValue);
     }
     catch(e){
         console.log(e);
@@ -30,7 +30,6 @@ export const UserLogin = createAsyncThunk(
     'user/login',
     async (data, thunkAPI) => {
         const auth = await getData(USER_DATA).then((res) => res);
-        console.log("33", auth);
         if(auth != null){
             return auth;
         }
@@ -56,7 +55,7 @@ const userSlice = createSlice({
         error: null,
         message: '',
     },
-    reducer: {
+    reducers: {
         Logout: (state) => {
             state.user = null;
             storeData(USER_DATA, null);

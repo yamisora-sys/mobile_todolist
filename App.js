@@ -8,28 +8,37 @@ import {Provider} from 'react-redux';
 import {store} from '@redux/store';
 import {getData, USER_DATA} from '@redux/reducer/userSlice';
 import {useEffect, useState} from 'react';
+import {AuthConsumer, AuthProvider} from '@context/auth';
+
 import HomeScreen from '@pages/Home';
 import Journal from '@pages/Journal';
 import Daily from '@pages/Daily';
 import Profile from '@pages/Profile';
 import ToDo from '@pages/ToDo';
-import Login from '@pages/Login';
+import AuthScreen from '@pages/Auth';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export default function App() {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    getData(USER_DATA).then((res) => setUser(res.data));
-  }, []);
+import {Loading} from '@components/Loading';
 
+export default function App() {
+  
   return (
     <Provider store={store}>
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Main" component={BottomTab} options={{ headerShown: false }}/>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-      </Stack.Navigator>
+      <AuthProvider>
+        <AuthConsumer>
+          {({auth}) => (
+            <Stack.Navigator>
+              {auth == null ? (
+                <Stack.Screen name="Auth" component={AuthScreen} options={{headerShown: false}}/>
+              ) : (
+                <Stack.Screen name="Home" component={BottomTab} options={{headerShown: false}}/>
+              )}
+            </Stack.Navigator>
+          )}
+        </AuthConsumer>
+      </AuthProvider>
     </NavigationContainer>
     </Provider>
   );
@@ -43,7 +52,7 @@ const BottomTab = () => {
         <Tab.Screen name="Daily" component={Daily} options={{ tabBarIcon: () => <Icon name="smile-o" size={25} color="#900" />}}/>
         <Tab.Screen name="Profile" component={Profile} options={{ tabBarIcon: () => <Icon name="user-circle-o" size={25} color="#900" />}}/>
         <Tab.Screen name="ToDo" component={ToDo} options={{ tabBarIcon: () => <Icon name="list-ul" size={25} color="#900" />}}/>
-        <Tab.Screen name="Login" component={Login} />
+        <Tab.Screen name="Loading" component={Loading} options={{ tabBarIcon: () => <Icon name="list-ul" size={25} color="#900" />}}/>
       </Tab.Navigator>
   )
 }

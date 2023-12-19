@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '@css/login.module.css';
-import { Register } from '@api/userAPI';
+
 
 export default function Register({ navigation }) {
         const [firstName, setFirstName] = useState('');
@@ -28,7 +28,7 @@ export default function Register({ navigation }) {
         return (
             <View style={styles.container}>
                 <View style={styles.logo}>
-                    <Image source={require('@assets/logo.png')} style={{width: 200, height: 200}}/>
+                    {/* <Image source={require('@assets/logo.png')} style={{width: 200, height: 200}}/> */}
                 </View>
                 <View style={styles.inputView} >
                     <TextInput  
