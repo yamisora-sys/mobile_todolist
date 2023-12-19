@@ -3,6 +3,16 @@ module.exports = function(api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
+      [
+        "module:react-native-dotenv",{
+          "moduleName": "@env",
+          "path": ".env",
+          "blacklist": null,
+          "whitelist": null,
+          "safe": false,
+          "allowUndefined": true
+        }
+      ],
       'babel-plugin-react-native-classname-to-style',
       [
         'babel-plugin-react-native-platform-specific-extensions', {extensions: ['css', 'scss', 'sass']}

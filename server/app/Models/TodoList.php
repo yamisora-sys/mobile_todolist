@@ -13,6 +13,7 @@ class TodoList extends Model
         'title',
         'completed',
         'user_id',
+        'imageURL',
         'details',
     ];
 }

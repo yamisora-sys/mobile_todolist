@@ -13,11 +13,20 @@ class TodoController extends Controller
             'meomeomeo' => "meomeomeo"
         ]);
     }
+    public function getTodo(Request $request){
+        $todos = TodoList::where('user_id', $request->user_id)->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Get todo successfully',
+            'data' => $todos
+        ]);
+    }
     //function add todo
     public function addTodo(Request $request){
         $todo = new TodoList();
         $todo->title = $request->title;
         $todo->user_id = $request->user_id;
+        $todo->imageURL = $request->imageURL;
         $todo->details = $request->details;
         $todo->save();
         return response()->json([
