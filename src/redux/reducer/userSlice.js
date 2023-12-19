@@ -42,7 +42,9 @@ export const UserLogin = createAsyncThunk(
 export const UserRegister = createAsyncThunk(
     'user/register',
     async (data, thunkAPI) => {
+        console.log(45, data);
         const result = await Register(data).then((res) => res);
+        await storeData(USER_DATA, result.data);
         return result;
     }
 )
@@ -75,12 +77,13 @@ const userSlice = createSlice({
                 state.error = action.error.message;
                 state.message = action.error.message;
                 state.loading = false;
-            })
-            .addCase(UserRegister.pending, (state) => {
+            });
+        builder.addCase(UserRegister.pending, (state) => {
                 state.loading = true;
             })
             .addCase(UserRegister.fulfilled, (state, action) => {
                 state.message = action.payload.message;
+                state.user = action.payload.data;
             })
             .addCase(UserRegister.rejected, (state, action) => {
                 state.message = action.error.message;

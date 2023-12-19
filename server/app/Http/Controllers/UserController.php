@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+
 class UserController extends Controller
 {
     //user authentication
@@ -34,6 +35,7 @@ class UserController extends Controller
     //user registration
     public function register(Request $request){
         $user = User::where('username', $request->username)->first();
+
         if($user){
             return response()->json([
                 'status' => 'error',
@@ -46,6 +48,7 @@ class UserController extends Controller
             $user->lastname = $request->lastname;
             $user->username = $request->username;
             $user->email = $request->email;
+            $user->name = $request->name;
             $user->password = $request->password;
             $user->save();
 
@@ -55,5 +58,11 @@ class UserController extends Controller
                 'data' => $user
             ]);
         }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Something went wrong',
+            'data' => null
+        ]);
     }
 }

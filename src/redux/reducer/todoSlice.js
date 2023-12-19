@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { getTodo, createTodo } from '@api/todoAPI';
+import { getTodo, createTodo } from '@api/ToDoAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const TODO_DATA = 'todo';
