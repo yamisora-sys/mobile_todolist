@@ -1,5 +1,6 @@
 // get url from .env
-const baseURL = process.env.baseURL;
+const baseURL = "http://192.168.2.23:8000/api/";
+
 
 export const Login = async (username, password) => {
     const result = await fetch(baseURL + 'login', {
