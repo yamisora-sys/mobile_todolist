@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\TodoList;
 class TodoController extends Controller
 {
     public function AllTodos()
@@ -14,8 +14,8 @@ class TodoController extends Controller
         ]);
     }
     //function add todo
-    public function addTodo(){
-        $todo = new Todo();
+    public function addTodo(Request $request){
+        $todo = new TodoList();
         $todo->title = $request->title;
         $todo->user_id = $request->user_id;
         $todo->details = $request->details;
@@ -27,8 +27,8 @@ class TodoController extends Controller
         ]);
     }
     //function update todo
-    public function updateTodo(){
-        $todo = Todo::find($request->id);
+    public function updateTodo(Request $request){
+        $todo = TodoList::find($request->id);
         $todo->completed = true;
         $todo->save();
         return response()->json([
@@ -38,8 +38,8 @@ class TodoController extends Controller
         ]);
     }
     //function delete todo
-    public function deleteTodo(){
-        $todo = Todo::find($request->id);
+    public function deleteTodo(Request $request){
+        $todo = TodoList::find($request->id);
         $todo->delete();
         return response()->json([
             'status' => 'success',

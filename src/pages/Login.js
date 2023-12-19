@@ -1,31 +1,27 @@
-//login and register page
-import React, { Component } from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '@css/login.module.css';
-import { Login } from '@api/userAPI';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { UserLogin } from '@redux/reducer/userSlice';
+import { Loading } from '@components/Loading';
 export default function Login({ navigation }) {
 
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
 
+    const state = useSelector(state => state.user);
+    const {user, loading, error, message} = state;
     const handleLogin = async () => {
-        const result = await Login(username, password);
-        if (result.status === 'success') {
-            navigation.navigate('Home');
-        } else {
-            Alert.alert('Login failed', result.message);
-        }
+        await dispatch(UserLogin({ username, password }));
+        Alert.alert('Thông báo', message);
     }
-
+    if (loading) return <Loading />
     return (
         <View style={styles.container}>
             <View style={styles.logo}>
-                <Image source={require('@assets/logo.png')} style={{width: 200, height: 200}}/>
+                {/* <Image source={require('@assets/logo.png')} style={{width: 200, height: 200}}/> */}
             </View>
             <View style={styles.inputView} >
                 <TextInput  
@@ -46,7 +42,7 @@ export default function Login({ navigation }) {
             <TouchableOpacity>
                 <Text style={styles.forgot}>Forgot Password?</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginBtn} onClick={()=>handleLogin()} >
+            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} >
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
             <TouchableOpacity>

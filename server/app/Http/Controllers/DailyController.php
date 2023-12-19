@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Daily;
 class DailyController extends Controller
 {
     public function AllDailies()
@@ -14,7 +14,7 @@ class DailyController extends Controller
         ]);
     }
     //function add daily
-    public function addDaily(){
+    public function addDaily(Request $request){
         $daily = new Daily();
         $daily->title = $request->title;
         $daily->user_id = $request->user_id;
