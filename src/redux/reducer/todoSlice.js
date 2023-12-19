@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { getTodo, createTodo } from '@api/todoAPI';
+import { getTodo, createTodo } from '@api/ToDoAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const TODO_DATA = 'todo';
@@ -16,7 +16,7 @@ export const createTodoData = createAsyncThunk(
     'todo/create',
     async (data, thunkAPI) => {
         const result = await createTodo(data).then((res) => res);
-        thunkAPI.dispatch(getTodoData({ user_id: 1 }));
+        thunkAPI.dispatch(getTodoData(data.user_id));
         return result;
     }
 )

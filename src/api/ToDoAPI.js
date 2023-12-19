@@ -20,9 +20,7 @@ export const createToDo = async (data) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            data,
-        }),
+        body: JSON.stringify(data),
     }).then((response) => response.json())
     return result;
 }

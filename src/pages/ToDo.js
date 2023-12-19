@@ -3,14 +3,18 @@ import style from '@css/todo.module.css';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import {getData, USER_DATA} from '@redux/reducer/userSlice';
 import { Loading } from '@components/Loading';
 import { getTodoData, createTodoData } from '@redux/reducer/todoSlice';
+import { useAuth } from '@context/auth';
 export const ToDo = () => {
     const [todo, setTodo] = useState({});
     const dispatch = useDispatch();
+    const {auth, setAuth} = useAuth();
 
     useEffect(() => {
-        getData(USER_DATA).then((res) => setTodo({...todo, user_id: res.data.id}));
+        setTodo({...todo, user_id: auth.id});
+        console.log(todo);
       }, []);
 
     const state = useSelector(state => state.todo);
@@ -19,7 +23,8 @@ export const ToDo = () => {
         await dispatch(getTodoData(todo.user_id));
     }
     const handleAddTodo = async () => {
-        await dispatch(createTodoData(todo));
+        await dispatch(createTodoData(todo)); 
+        Alert.alert('Thông báo', message);
     }
     return (
         <View style={style.container}>
@@ -39,7 +44,7 @@ export const ToDo = () => {
                         style={style.inputText}
                         placeholder="Content..." 
                         placeholderTextColor="#003f5c"
-                        onChangeText={text => setTodo({...todo, content: text})}/>
+                        onChangeText={text => setTodo({...todo, details: text})}/>
                 </View>
                 <TouchableOpacity style={style.loginBtn} onPress={handleAddTodo} >
                     <Text style={style.loginText}>Add</Text>
