@@ -16,7 +16,7 @@ export const createTodoData = createAsyncThunk(
     'todo/create',
     async (data, thunkAPI) => {
         const result = await createTodo(data).then((res) => res);
-        thunkAPI.dispatch(getTodoData({ user_id: 1 }));
+        thunkAPI.dispatch(getTodoData(data.user_id));
         return result;
     }
 )

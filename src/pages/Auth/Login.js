@@ -42,7 +42,7 @@ export default function Login({ navigation }) {
             <View style={styles.inputView} >
                 <TextInput  
                     style={styles.inputText}
-                    placeholder="Email..." 
+                    placeholder="Username..." 
                     placeholderTextColor="#003f5c"
                     onChangeText={text => setUserName(text)}/>
             </View>

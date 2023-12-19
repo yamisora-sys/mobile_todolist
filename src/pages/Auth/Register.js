@@ -54,7 +54,6 @@ export default function Register({ navigation }) {
                         style={styles.inputText}
                         placeholder="First Name..." 
                         placeholderTextColor="#003f5c"
-                        secureTextEntry={true}
                         onChangeText={text => setFirstName(text)}
                         />
                 </View>
@@ -63,7 +62,6 @@ export default function Register({ navigation }) {
                         style={styles.inputText}
                         placeholder="Last Name..." 
                         placeholderTextColor="#003f5c"
-                        secureTextEntry={true}
                         onChangeText={text => setLastName(text)}
                         />
                 </View>
