@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } fro
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '@css/login.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { UserLogin } from '@redux/reducer/userSlice';
+import { UserLogin, Logout } from '@redux/reducer/userSlice';
 import { Loading } from '@components/Loading';
 export default function Login({ navigation }) {
 
@@ -17,6 +17,11 @@ export default function Login({ navigation }) {
         await dispatch(UserLogin({ username, password }));
         Alert.alert('Thông báo', message);
     }
+
+    const handleLogout = async () => {
+        dispatch(Logout());
+    }
+
     if (loading) return <Loading />
     return (
         <View style={styles.container}>
@@ -47,6 +52,9 @@ export default function Login({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity>
                 <Text style={styles.loginText}>Signup</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleLogout}>
+                <Text style={styles.loginText}>Logout</Text>
             </TouchableOpacity>
         </View>
     );

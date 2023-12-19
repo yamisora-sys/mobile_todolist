@@ -14,16 +14,15 @@ import Daily from '@pages/Daily';
 import Profile from '@pages/Profile';
 import ToDo from '@pages/ToDo';
 import Login from '@pages/Login';
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [user, setUser] = useState(null);
-  const baseURL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     getData(USER_DATA).then((res) => setUser(res.data));
   }, []);
+
   return (
     <Provider store={store}>
     <NavigationContainer>

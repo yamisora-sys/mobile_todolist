@@ -1,5 +1,6 @@
 // get url from .env
-const baseURL = "http://192.168.2.23:8000/api/";
+import { API_URL } from "@env";
+const baseURL = API_URL;
 
 
 export const Login = async (username, password) => {
