@@ -7,7 +7,7 @@ export const TODO_DATA = 'todo';
 export const getTodoData = createAsyncThunk(
     'todo/get',
     async (data, thunkAPI) => {
-        const result = await getTodo(data.user_id).then((res) => res);
+        const result = await getTodo(data).then((res) => res);
         return result;
     }
 )
@@ -24,7 +24,7 @@ export const createTodoData = createAsyncThunk(
 const todoSlice = createSlice({
     name: 'todo',
     initialState: {
-        todoData: null,
+        todoData: [],
         loading: false,
         error: null,
         message: '',
@@ -51,6 +51,7 @@ const todoSlice = createSlice({
             state.loading = true;
         })
         .addCase(createTodoData.fulfilled, (state, action) => {
+            state.todoData = action.payload.data;
             state.message = action.payload.message;
         })
         .addCase(createTodoData.rejected, (state, action) => {

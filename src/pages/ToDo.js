@@ -1,4 +1,4 @@
-import {Text, View, ScrollView, TouchableOpacity, TextInput, Button} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity, TextInput, Button, Alert} from 'react-native';
 import style from '@css/todo.module.css';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState, useEffect } from 'react';
@@ -13,14 +13,17 @@ export const ToDo = () => {
     const {auth, setAuth} = useAuth();
 
     useEffect(() => {
-        setTodo({...todo, user_id: auth.id});
-        console.log(todo);
+        setTodo({...todo, 
+            imageURL: "http",
+            user_id: auth.id});
+        dispatch(getTodoData(auth.id));
       }, []);
 
     const state = useSelector(state => state.todo);
     const {todoData, loading, error, message} = state;
+
     const handleGetTodo = async () => {
-        await dispatch(getTodoData(todo.user_id));
+        await dispatch(getTodoData(auth.id));
     }
     const handleAddTodo = async () => {
         await dispatch(createTodoData(todo)); 
@@ -53,7 +56,7 @@ export const ToDo = () => {
                     <Text style={style.loginText}>Get</Text>
                 </TouchableOpacity>
                 <ScrollView>
-                    {todoData && todoData.map((item, index) => {
+                    {todoData.length >0 && todoData.map((item, index) => {
                         return (
                             <View key={index} style={style.todoItem}>
                                 <Text style={style.todoTitle}>{item.title}</Text>

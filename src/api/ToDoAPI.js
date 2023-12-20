@@ -1,8 +1,8 @@
 import { API_URL } from "@env";
 const baseURL = API_URL;
 
-export const getToDo = async (user_id) => {
-    const result = await fetch(baseURL + 'todos', {
+export const getTodo = async (user_id) => {
+    const result = await fetch(baseURL + 'get-todo', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ export const getToDo = async (user_id) => {
     return result;
 }
 
-export const createToDo = async (data) => {
+export const createTodo = async (data) => {
     const result = await fetch(baseURL + 'add-todo', {
         method: 'POST',
         headers: {

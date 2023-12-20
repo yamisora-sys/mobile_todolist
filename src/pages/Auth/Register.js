@@ -15,7 +15,9 @@ export default function Register({ navigation }) {
         const [username, setUserName] = useState('');
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
+
         const {auth, setAuth} = useAuth();
+
         const dispatch = useDispatch();
         const state = useSelector(state => state.user);
         const {user, loading, error, message} = state;
@@ -27,7 +29,6 @@ export default function Register({ navigation }) {
                 email,
                 password,
             }
-            console.log(data);
             dispatch(UserRegister(data));
         }
 
@@ -43,7 +44,6 @@ export default function Register({ navigation }) {
             }
         })
         if (loading) return <Loading />
-        console.log(message)
         return (
             <View style={styles.container}>
                 <View style={styles.logo}>

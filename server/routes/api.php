@@ -18,6 +18,9 @@ use App\Http\Controllers\DailyController;
 
 Route::get("todos", [TodoController::class, "AllTodos"]);
 Route::post("add-todo", [TodoController::class, "addTodo"]);
+
+Route::post("get-todo", [TodoController::class, "getTodo"]);
+
 Route::post("update-todo", [TodoController::class, "updateTodo"]);
 Route::post("register", [UserController::class, "register"]);
 Route::post("login", [UserController::class, "login"]);

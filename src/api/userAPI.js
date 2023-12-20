@@ -14,12 +14,10 @@ export const Login = async (username, password) => {
             password,
         }),
     }).then((response) => response.json())
-    console.log(result);
     return result;
 }
 
 export const Register = async (data) =>{
-    console.log(22, data);
     const result = await fetch(baseURL + 'register', {
         method: 'POST',
         headers: {
@@ -27,6 +25,5 @@ export const Register = async (data) =>{
         },
         body: JSON.stringify(data),
     }).then((response) => response.json())
-    console.log(result);
     return result;
 }

@@ -18,7 +18,6 @@ export const getData = async (key) => {
     try{
         const jsonValue = await AsyncStorage.getItem(key);
         return jsonValue != null ? JSON.parse(jsonValue) : null;
-        console.log(jsonValue);
     }
     catch(e){
         console.log(e);
@@ -42,7 +41,6 @@ export const UserLogin = createAsyncThunk(
 export const UserRegister = createAsyncThunk(
     'user/register',
     async (data, thunkAPI) => {
-        console.log(45, data);
         const result = await Register(data).then((res) => res);
         await storeData(USER_DATA, result.data);
         return result;
