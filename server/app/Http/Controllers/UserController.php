@@ -32,6 +32,7 @@ class UserController extends Controller
             ]);
         }
     }
+
     //user registration
     public function register(Request $request){
         $user = User::where('username', $request->username)->first();

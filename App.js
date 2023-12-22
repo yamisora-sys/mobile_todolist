@@ -14,7 +14,7 @@ import HomeScreen from '@pages/Home';
 import Journal from '@pages/Journal';
 import Daily from '@pages/Daily';
 import Profile from '@pages/Profile';
-import ToDo from '@pages/ToDo';
+import TodoStack from '@pages/Todo/index.js'
 import AuthScreen from '@pages/Auth';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,7 +51,7 @@ const BottomTab = () => {
         <Tab.Screen name="Journal" component={Journal} options={{ tabBarIcon: () => <Icon name="calendar-check-o" size={25} color="#900" />}}/>
         <Tab.Screen name="Daily" component={Daily} options={{ tabBarIcon: () => <Icon name="smile-o" size={25} color="#900" />}}/>
         <Tab.Screen name="Profile" component={Profile} options={{ tabBarIcon: () => <Icon name="user-circle-o" size={25} color="#900" />}}/>
-        <Tab.Screen name="ToDo" component={ToDo} options={{ tabBarIcon: () => <Icon name="list-ul" size={25} color="#900" />}}/>
+        <Tab.Screen name="Todo" component={TodoStack} options={{ tabBarIcon: () => <Icon name="list-ul" size={25} color="#900" />}}/>
         <Tab.Screen name="Loading" component={Loading} options={{ tabBarIcon: () => <Icon name="list-ul" size={25} color="#900" />}}/>
       </Tab.Navigator>
   )

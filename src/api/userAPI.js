@@ -2,9 +2,10 @@
 import { API_URL } from "@env";
 const baseURL = API_URL;
 
+console.log(baseURL);
 
 export const Login = async (username, password) => {
-    const result = await fetch(baseURL + 'login', {
+    const result = fetch(baseURL + 'login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -18,7 +19,8 @@ export const Login = async (username, password) => {
 }
 
 export const Register = async (data) =>{
-    const result = await fetch(baseURL + 'register', {
+    console.log(data);
+    const result = fetch(baseURL + 'register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

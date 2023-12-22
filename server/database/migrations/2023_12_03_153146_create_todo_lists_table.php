@@ -18,6 +18,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('details');
             $table->string('imageURL')->nullable();
+            $table->boolean('repeat')->default(false);
+            $table->foreignId('repeat_type_id')->nullable()->constrained();
+            $table->datetime('start_time')->nullable();
+            $table->integer('reapeat_every')->nullable();
             $table->timestamps();
         });
     }

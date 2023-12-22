@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { getTodo, createTodo } from '@api/ToDoAPI';
+import { getTodo, createTodo, completeTodo } from '@api/ToDoAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const TODO_DATA = 'todo';
@@ -16,6 +16,15 @@ export const createTodoData = createAsyncThunk(
     'todo/create',
     async (data, thunkAPI) => {
         const result = await createTodo(data).then((res) => res);
+        thunkAPI.dispatch(getTodoData(data.user_id));
+        return result;
+    }
+)
+
+export const completeTodoData = createAsyncThunk(
+    'todo/complete',
+    async (data, thunkAPI) => {
+        const result = await completeTodo(data.id).then((res) => res);
         thunkAPI.dispatch(getTodoData(data.user_id));
         return result;
     }
@@ -51,7 +60,7 @@ const todoSlice = createSlice({
             state.loading = true;
         })
         .addCase(createTodoData.fulfilled, (state, action) => {
-            state.todoData = action.payload.data;
+            // state.todoData = action.payload.data;
             state.message = action.payload.message;
         })
         .addCase(createTodoData.rejected, (state, action) => {

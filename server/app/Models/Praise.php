@@ -5,14 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Daily extends Model
+class Praise extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'title',
-        'time',
-        'user_id',
-        'details',
-    ];
 }

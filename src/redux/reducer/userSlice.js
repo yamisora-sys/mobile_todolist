@@ -29,20 +29,24 @@ export const UserLogin = createAsyncThunk(
     'user/login',
     async (data, thunkAPI) => {
         const auth = await getData(USER_DATA).then((res) => res);
+        console.log(32, auth);
         if(auth != null){
             return auth;
         }
-        const result = await Login(data.username, data.password).then((res) => res);
-        await storeData(USER_DATA, result.data);
-        return result;
+        else{
+            const result = await Login(data.username, data.password).then((res) => res);
+            storeData(USER_DATA, result.data);
+            return result;
+        }
     }
 )
 
 export const UserRegister = createAsyncThunk(
     'user/register',
     async (data, thunkAPI) => {
+        console.log(data);
         const result = await Register(data).then((res) => res);
-        await storeData(USER_DATA, result.data);
+        storeData(USER_DATA, result.data);
         return result;
     }
 )

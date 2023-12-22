@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DailyController;
+use Illuminate\Support\Facades\URL;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,4 +24,4 @@ Route::post("get-todo", [TodoController::class, "getTodo"]);
 Route::post("update-todo", [TodoController::class, "updateTodo"]);
 Route::post("register", [UserController::class, "register"]);
 Route::post("login", [UserController::class, "login"]);
-Route::post("add-daily", [DailyController::class, "addDaily"]);
+Route::get("complete-todo/{id}", [TodoController::class, "completeTodo"]);

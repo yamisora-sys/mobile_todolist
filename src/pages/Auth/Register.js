@@ -25,8 +25,8 @@ export default function Register({ navigation }) {
             let data = {
                 firstname,
                 lastname,
-                username,
                 email,
+                username,
                 password,
             }
             dispatch(UserRegister(data));
@@ -43,6 +43,7 @@ export default function Register({ navigation }) {
                 setAuth(user);
             }
         })
+        console.log(message)
         if (loading) return <Loading />
         return (
             <View style={styles.container}>

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dailies', function (Blueprint $table) {
+        Schema::create('repeat_types', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('time');
-            $table->foreignId('user_id')->constrained();
-            $table->string('details')->nullable();
+            $table->string('name')->unique();
+            $table->string('description');
+            $table->integer('repeat_every')->default(1);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dailies');
+        Schema::dropIfExists('repeat_types');
     }
 };

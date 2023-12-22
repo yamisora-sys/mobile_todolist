@@ -18,9 +18,10 @@ export default function Login({ navigation }) {
     const {user, loading, error, message} = state;
 
     const handleLogin = async () => {
-        await dispatch(UserLogin({ username, password }));
+        dispatch(UserLogin({ username, password }));
         Alert.alert('Thông báo', message);
     }
+
     useEffect(()=>{
         if(user != null){
             setAuth(user);
@@ -30,7 +31,7 @@ export default function Login({ navigation }) {
         dispatch(Logout());
         setAuth(null);
     }
-
+    console.log(message)
     if (loading) return <Loading />
     return (
         <View style={styles.container}>

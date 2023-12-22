@@ -56,4 +56,15 @@ class TodoController extends Controller
             'data' => $todo
         ]);
     }
+
+    public function completeTodo(Request $request){
+        $todo = TodoList::find($request->id);
+        $todo->completed = true;
+        $todo->save();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Complete todo successfully',
+            'data' => $todo
+        ]);
+    }
 }
