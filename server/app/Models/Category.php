@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RepeatType extends Model
+class Category extends Model
 {
     use HasFactory;
-    protected $fillable = [
+    const data =[
+        "Work",
+        "Personal",
+    ];
+    protected  $fillable = [
         'name',
-        'description',
-        'unit'
+        'imageURL'
     ];
 }

@@ -19,7 +19,7 @@ export const Todo = ({navigation}) => {
     const {todoData, loading, error, message} = state;
     
     const completeTodo = (id) => {
-        dispatch(completeTodoData({id, user_id: auth.id}))
+        dispatch(completeTodoData(id))
     }
 
     return (
@@ -56,3 +56,5 @@ export const Todo = ({navigation}) => {
         </View>
     )
 }
+
+export default Todo;

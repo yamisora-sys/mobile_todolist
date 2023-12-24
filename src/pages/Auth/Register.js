@@ -9,33 +9,45 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useAuth} from '@context/auth';
 import {UserRegister} from '@redux/reducer/userSlice';
 import {Loading} from '@components/Loading';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { FormatDateTime, getDate } from '@config/format.js';
 export default function Register({ navigation }) {
         const [firstname, setFirstName] = useState('');
         const [lastname, setLastName] = useState('');
         const [username, setUserName] = useState('');
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
-
+        const [birthday, setBirthday] = useState(new Date());
+        const [show, setShow] = useState(false);
         const {auth, setAuth} = useAuth();
 
         const dispatch = useDispatch();
         const state = useSelector(state => state.user);
         const {user, loading, error, message} = state;
         const handleRegister = async () => {
+            if(firstname == '' || lastname == '' || username == '' || email == '' || password == '' || birthday == ''){
+                Alert.alert('Thông báo', 'Vui lòng nhập đầy đủ thông tin');
+                return;
+            }
+            if(password.length < 3){
+                Alert.alert('Thông báo', 'Mật khẩu phải có ít nhất 3 ký tự');
+                return;
+            }
+            // check email
+            const regex = /\S+@\S+\.\S+/;
+            if(!regex.test(email)){
+                Alert.alert('Thông báo', 'Email không hợp lệ');
+                return;
+            }
             let data = {
                 firstname,
                 lastname,
                 email,
                 username,
+                birthday: getDate(birthday),
                 password,
             }
-            dispatch(UserRegister(data));
-        }
-
-        const handlCheckPassword = () => {
-            if(password.length < 6){
-                Alert.alert('Password must be at least 6 characters');
-            }
+            await dispatch(UserRegister(data));
         }
         
         useEffect(()=>{
@@ -88,6 +100,24 @@ export default function Register({ navigation }) {
                         secureTextEntry={true}
                         onChangeText={text => setPassword(text)}
                         />
+                </View>
+                <View>
+                    <TouchableOpacity style={styles.inputView} onPress={() => setShow(true)}>
+                        <Text style={styles.inputText}>{getDate(birthday)}</Text>
+                    </TouchableOpacity>
+                    {show && (
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            value={birthday}
+                            mode={'date'}
+                            is24Hour={true}
+                            display="default"
+                            onChange={(event, selectedDate) => {
+                                setShow(Platform.OS === 'ios');
+                                setBirthday(selectedDate);
+                            }}
+                        />
+                    )}
                 </View>
                 <TouchableOpacity style={styles.loginBtn} onPress={handleRegister} >
                     <Text style={styles.loginText}>SIGN UP</Text>

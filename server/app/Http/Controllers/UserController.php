@@ -50,6 +50,7 @@ class UserController extends Controller
             $user->username = $request->username;
             $user->email = $request->email;
             $user->password = $request->password;
+            $user->birthday = $request->birthday;
             $user->save();
 
             return response()->json([
@@ -63,6 +64,21 @@ class UserController extends Controller
             'status' => 'error',
             'message' => 'Something went wrong',
             'data' => null
+        ]);
+    }
+
+    public function updateUser(Request $request){
+        $user = User::find($request->id);
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->birthday = $request->birthday;
+        $user->email = $request->email;
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Update user successfully',
+            'data' => $user
         ]);
     }
 }

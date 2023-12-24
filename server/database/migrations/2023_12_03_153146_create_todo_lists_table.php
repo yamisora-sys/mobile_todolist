@@ -21,7 +21,10 @@ return new class extends Migration
             $table->boolean('repeat')->default(false);
             $table->foreignId('repeat_type_id')->nullable()->constrained();
             $table->datetime('start_time')->nullable();
-            $table->integer('reapeat_every')->nullable();
+            $table->datetime('start_day')->nullable();
+            $table->integer('repeat_every')->nullable();
+            $table->foreignId('parent_id')->nullable()->constrained('todo_lists');
+            $table->foreignId('category_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

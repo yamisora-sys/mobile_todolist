@@ -1,18 +1,42 @@
 .container{
     flex: 1;
     background-color: aliceblue;
-    margin: 10px;
+    padding: 20px;
 }
 
-.task {
+.navigation{
+    flex: 1;
+    background-color: aliceblue;
+}
+
+.listtask {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    border: 1px solid black;
     border-radius: 5px;
     background-color: aqua;
+    margin-bottom: 10px;
+}
+
+.inprogress{
+    background-color: yellow;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.incoming{
+    background-color: red;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
     margin-bottom: 10px;
 }
 
@@ -46,4 +70,42 @@
     align-items: center;
     padding: 10px;
     margin-bottom: 10px;
+}
+
+
+.topbarItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+
+.chartView{
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.collapsible {
+    background-color: hotpink;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    margin-bottom: 10px;
+    border-radius: 100px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.detailText{
+    font-size: 16px;
+    text-align: left;
+    color: #ffffff;
+    padding-left: 10px;
 }

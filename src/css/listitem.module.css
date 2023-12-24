@@ -1,0 +1,37 @@
+.container{
+    padding: 20px;
+}
+.twoCol{
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: white;
+}
+
+.line{
+    margin-bottom: 10px;
+    border-width: 0 0 1px;
+    border-style: solid;
+    border-color: #ffffff;
+}
+
+.timeText{
+    font-size: 20px;
+    text-align: left;
+    flex-basis: auto;
+}
+
+.details{
+    font-size: 16px;
+    text-align: right;
+    color: #ffffff;
+    flex-basis: auto;
+    margin-left: 20px;
+    flex-basis: 300;
+}
+
+.displayButton{
+    justify-content: left;
+    flex-basis: 50;
+}

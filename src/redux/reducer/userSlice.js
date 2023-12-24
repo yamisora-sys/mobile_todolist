@@ -29,9 +29,10 @@ export const UserLogin = createAsyncThunk(
     'user/login',
     async (data, thunkAPI) => {
         const auth = await getData(USER_DATA).then((res) => res);
-        console.log(32, auth);
         if(auth != null){
-            return auth;
+            return {
+                data: auth
+            }
         }
         else{
             const result = await Login(data.username, data.password).then((res) => res);
@@ -51,19 +52,20 @@ export const UserRegister = createAsyncThunk(
     }
 )
 
+const initialState = {
+    user: null,
+    loading: false,
+    error: null,
+    message: '',
+}
+
 const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        user: null,
-        loading: false,
-        error: null,
-        message: '',
-    },
+    initialState: initialState,
     reducers: {
         Logout: (state) => {
             state.user = null;
-            storeData(USER_DATA, null);
-        }
+        },
     },
     extraReducers: (builder) => {
         builder

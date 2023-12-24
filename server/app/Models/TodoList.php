@@ -19,7 +19,11 @@ class TodoList extends Model
         'repeat',
         'repeat_type_id',
         'start_time',
-        'reapeat_every'
+        'reapeat_every',
+        'start_day',
+        'start_time',
+        'parent_id',
+        'category_id',
     ];
 
     public function repeatType()

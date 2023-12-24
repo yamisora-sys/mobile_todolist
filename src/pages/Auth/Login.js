@@ -18,8 +18,9 @@ export default function Login({ navigation }) {
     const {user, loading, error, message} = state;
 
     const handleLogin = async () => {
-        dispatch(UserLogin({ username, password }));
+        await dispatch(UserLogin({ username, password }));
         Alert.alert('Thông báo', message);
+        console.log(user);
     }
 
     useEffect(()=>{
@@ -27,11 +28,6 @@ export default function Login({ navigation }) {
             setAuth(user);
         }
     })
-    const handleLogout = async () => {
-        dispatch(Logout());
-        setAuth(null);
-    }
-    console.log(message)
     if (loading) return <Loading />
     return (
         <View style={styles.container}>
@@ -58,6 +54,7 @@ export default function Login({ navigation }) {
             <TouchableOpacity>
                 <Text style={styles.forgotPassword}>Forgot Password?</Text>
             </TouchableOpacity>
+            <View style={styles.centeredView}>
             <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} >
                 <Text style={styles.btnText}>LOGIN</Text>
             </TouchableOpacity>
@@ -66,6 +63,7 @@ export default function Login({ navigation }) {
             }}>
                 <Text style={styles.btnText}>Signup</Text>
             </TouchableOpacity>
+        </View>
         </View>
     );
 }

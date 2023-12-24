@@ -14,8 +14,11 @@ import HomeScreen from '@pages/Home';
 import Journal from '@pages/Journal';
 import Daily from '@pages/Daily';
 import Profile from '@pages/Profile';
-import TodoStack from '@pages/Todo/index.js'
+import Todo from '@pages/Todo/ToDo.js';
 import AuthScreen from '@pages/Auth';
+import {TodaySchedule} from '@pages/Home/TodaySchedule';
+import {AddTodo} from '@pages/Todo/AddTodo';
+import {TodayList} from '@pages/Home/TodayList';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -33,7 +36,12 @@ export default function App() {
               {auth == null ? (
                 <Stack.Screen name="Auth" component={AuthScreen} options={{headerShown: false}}/>
               ) : (
-                <Stack.Screen name="Home" component={BottomTab} options={{headerShown: false}}/>
+                <>
+                <Stack.Screen name="BottomTab" component={BottomTab} options={{headerShown: false}}/>
+                <Stack.Screen name="TodaySchedule" component={TodaySchedule} options={{headerShown: true}}/>
+                <Stack.Screen name="AddTodo" component={AddTodo} options={{headerShown: true}}/>
+                <Stack.Screen name="TodayList" component={TodayList} options={{headerShown: true}}/>
+                </>
               )}
             </Stack.Navigator>
           )}
@@ -46,13 +54,15 @@ export default function App() {
 
 const BottomTab = () => {
   return (
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Icon name="home" size={25} color="#900" />}}/>
+      <Tab.Navigator
+      >
+        <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Icon name="home" size={25} color="#900" />,
+         headerShown: false, 
+        }}/>
         <Tab.Screen name="Journal" component={Journal} options={{ tabBarIcon: () => <Icon name="calendar-check-o" size={25} color="#900" />}}/>
         <Tab.Screen name="Daily" component={Daily} options={{ tabBarIcon: () => <Icon name="smile-o" size={25} color="#900" />}}/>
         <Tab.Screen name="Profile" component={Profile} options={{ tabBarIcon: () => <Icon name="user-circle-o" size={25} color="#900" />}}/>
-        <Tab.Screen name="Todo" component={TodoStack} options={{ tabBarIcon: () => <Icon name="list-ul" size={25} color="#900" />}}/>
-        <Tab.Screen name="Loading" component={Loading} options={{ tabBarIcon: () => <Icon name="list-ul" size={25} color="#900" />}}/>
+        <Tab.Screen name="Todo" component={Todo} options={{ tabBarIcon: () => <Icon name="list-ul" size={25} color="#900" />}}/>
       </Tab.Navigator>
   )
 }

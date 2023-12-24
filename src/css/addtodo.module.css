@@ -1,17 +1,24 @@
 .container{
     flex: 1;
     background-color: aliceblue;
-    padding: 10px;
+    padding: 20px;
 }
 
 .input{
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
     font-size: 16px;
+    text-align: left;
+}
+
+.twoCol{
+    flex-direction: row;
+    align-items: center;
     margin-bottom: 10px;
+    border: 1px solid #ffffff;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 10px;
 }
 
 .headerBar{
@@ -19,4 +26,22 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.switch{
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+.dropdown{
+    font-size: 16px;
+    text-align: left;
+    background-color: #fff;
+    border: 0;
+    border-radius: 4px;
+}
+
+.button{
+    align-items: center;
 }
