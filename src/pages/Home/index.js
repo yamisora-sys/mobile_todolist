@@ -33,7 +33,6 @@ export default function HomeScreen({navigation}) {
   });
   useEffect(() => {
     dispatch(getCategoryData());
-    fetchData();
   }, []);
     useFocusEffect(
         useCallback(() => {

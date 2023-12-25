@@ -29,11 +29,12 @@ export default function Journal() {
         return data;
     }
     useEffect(() => {
-        setMarkDate(getTodoDataByDate());
+        
     }, []);
     useFocusEffect(
         useCallback(() => {
         fetchData();
+        setMarkDate(getTodoDataByDate());
         }, [])
     );
     return (

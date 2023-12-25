@@ -24,6 +24,8 @@ class TodoList extends Model
         'start_time',
         'parent_id',
         'category_id',
+        // "remind",
+        "remind_time",
     ];
 
     public function repeatType()

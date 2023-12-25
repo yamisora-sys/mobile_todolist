@@ -1,20 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { Text, View } from 'react-native';
+import {useEffect, useState, useCallback} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 export default function Daily() {
     return (
-        <View style={styles.container}>
+        <View>
         <Text>Home Screen</Text>
         <StatusBar style="auto" />
         </View>
     );
     }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

@@ -25,6 +25,8 @@ return new class extends Migration
             $table->integer('repeat_every')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('todo_lists');
             $table->foreignId('category_id')->nullable()->constrained();
+            // $table->boolean('remind')->default(false);
+            $table->integer('remind_time')->nullable();
             $table->timestamps();
         });
     }

@@ -123,6 +123,11 @@ const todoSlice = createSlice({
         })
         .addCase(completeTodoData.fulfilled, (state, action) => {
             state.message = action.payload.message;
+            // let id = action.payload.data.id;
+            // let index = state.todoData.findIndex((item) => item.id == id);
+            // state.todoData[index].completed = true;
+            // let index2 = state.todayData.findIndex((item) => item.id == id);
+            // state.todayData[index2].completed = true;
         })
         .addCase(completeTodoData.rejected, (state, action) => {
             state.message = action.error.message;
@@ -189,7 +194,6 @@ const todoSlice = createSlice({
         .addCase(getCategoryData.fulfilled, (state, action) => {
             state.loading = false;
             state.category = action.payload.data;
-            console.log(action.payload.data);
         })
         .addCase(getCategoryData.rejected, (state, action) => {
             state.error = action.error.message;

@@ -20,6 +20,32 @@ import { FormatDateTime } from "@config/format.js";
 import SelectDropdown from "react-native-select-dropdown";
 import { getRepeatTypeData } from "@redux/reducer/todoSlice";
 export const AddTodo = ({ navigation }) => {
+  const remindValue =[
+    {
+      name: "Không nhắc nhở",
+      value: 0,
+    },
+    {
+      name: "Trước 5 phút",
+      value: 5,
+    },
+    {
+      name: "Trước 10 phút",
+      value: 10,
+    },
+    {
+      name: "Trước 15 phút",
+      value: 15,
+    },
+    {
+      name: "Trước 30 phút",
+      value: 30,
+    },
+    {
+      name: "Trước 1 giờ",
+      value: 60,
+    }
+  ]
   const [currentDate, setCurrentDate] = useState(new Date());
   const { auth, setAuth } = useAuth();
   const [showDate, setShowDate] = useState(false);
@@ -34,6 +60,7 @@ export const AddTodo = ({ navigation }) => {
     repeat_every: null,
     start_time: FormatDateTime(currentDate),
     category_id: null,
+    remind_time: 0,
   });
 
   //   const [repeat, setRepeat] = useState(false);
@@ -142,6 +169,24 @@ export const AddTodo = ({ navigation }) => {
             }}
           />
         )}
+      </View>
+      <View style={styles.twoCol}>
+        <Icon name="bell" size={30} color="#900" />
+        <SelectDropdown
+          data={remindValue}
+          onSelect={(selectedItem, index) => {
+            setData({ ...data, remind_time: selectedItem.value });
+          }}
+          defaultButtonText="Không nhắc nhở"
+          rowTextForSelection={(item, index) => {
+            return item.name;
+          }
+          }
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem.name;
+          }}
+          buttonStyle={styles.dropdown}
+        />
       </View>
       <View style={styles.twoCol}>
         <Icon name="list-ul" size={30} color="#900" />

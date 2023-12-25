@@ -46,6 +46,7 @@ class TodoController extends Controller
         $todo->start_time = Carbon::parse($request->start_time);
         $todo->repeat_every = $request->repeat_every;
         $todo->category_id = $request->category_id;
+        $todo->remind_time = $request->remind_time;
         $todo->save();
         return response()->json([
             'status' => 'success',

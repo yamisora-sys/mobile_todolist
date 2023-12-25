@@ -15,7 +15,7 @@ export const TodayList = ({navigation}) => {
         await dispatch(getTodayTodoData(auth.id));
     }
     return (
-        <ImageBackground source={require('@img/background.jpg')} style={{width: '100%', height: '100%'}}>
+        <ImageBackground source={require('@img/bg4.jpg')} style={{width: '100%', height: '100%'}}>
             <View style={styles.container}>
         <ScrollView>
             {

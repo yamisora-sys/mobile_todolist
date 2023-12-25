@@ -8,17 +8,40 @@ import Collapsible from "react-native-collapsible";
 import { useState } from "react";
 import {completeTodoData, getTodayTodoData} from '@redux/reducer/todoSlice';
 import {useAuth} from '@context/auth';
+import {DiffMinutesFromNow} from '@config/calculate';
+
 export const TodayScreen = ({ navigation }) => {
   const state = useSelector((state) => state.todo);
-    const { auth, setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const { todayProgress, loading, todayData } = state;
   const total = todayData.length;
   const completed = todayData.filter((item) => item.completed == 1).length;
   // get the first incomplete task
-  const Incomplete = todayData.find((item) => item.completed == 0);
+  const Incomplete = todayData.find((item) =>{
+    let check = total - completed;
+    if( check  == 0){
+      return;
+    }
+    if(item.completed == 0){
+      return item;
+    }
+  });
   const Coming = todayData.find((item) => {
+    let check = total - completed;
+    if (check == 1 ){
+      return;
+    }
     if (item.completed == 0 && item.id != Incomplete.id) {
       return item;
+    }
+  });
+  const remindTask = todayData.filter((item) => {
+    // remind_time >0 and completed == 0
+    if(item.remind_time > 0 && item.completed == 0){
+      let check = DiffMinutesFromNow(item.start_time);
+      if(check <= item.remind_time){
+        return item;
+      }
     }
   });
   const [collapsed, setCollapsed] = useState(true);
@@ -32,11 +55,28 @@ export const TodayScreen = ({ navigation }) => {
     };
     const dispatch = useDispatch();
     const completeTodo = async (id) => {
-        await dispatch(completeTodoData(id));
+        dispatch(completeTodoData(id));
         await dispatch(getTodayTodoData(auth.id));
     }
+
+
   return (
     <View style={styles.container}>
+      <Collapsible collapsed={remindTask ? false : true} align="center">
+        <View style={styles.remind}>
+          <View>
+            <Text style={styles.titleText}>Remind</Text>
+            <View style={styles.status}>
+              <Icon name="bell" size={25} color="#ffffff" />
+              <Text>{remindTask ? remindTask[0].title : ""}</Text>
+            </View>
+          </View>
+          <View style={styles.taskList}>
+            <Icon name="chevron-right" size={40} color="#ffffff" />
+          </View>
+        </View>
+      </Collapsible>
+      
       <TouchableOpacity onPress={() => navigation.navigate("TodayList")}>
         <View style={styles.listtask}>
           <View>
