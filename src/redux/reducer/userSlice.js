@@ -47,7 +47,7 @@ export const UserRegister = createAsyncThunk(
     async (data, thunkAPI) => {
         console.log(data);
         const result = await Register(data).then((res) => res);
-        storeData(USER_DATA, result.data);
+        await storeData(USER_DATA, result.data);
         return result;
     }
 )

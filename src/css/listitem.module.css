@@ -35,3 +35,8 @@
     justify-content: left;
     flex-basis: 50;
 }
+
+.swiperContainer {
+    justify-content: center;
+    align-items: center;
+}

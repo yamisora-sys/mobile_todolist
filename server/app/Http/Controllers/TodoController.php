@@ -110,6 +110,8 @@ class TodoController extends Controller
                 "progress" => $todo->completed ? "done" : "in progress",
                 "circleColor" => $todo->completed ? "#00FF00" : "#FF0000",
                 "lineColor" => $todo->completed ? "#00FF00" : "#FF0000",
+                "remind_time" => $todo->remind_time,
+                "start_time" => $todo->start_time,
             ];
         });
         return response()->json([

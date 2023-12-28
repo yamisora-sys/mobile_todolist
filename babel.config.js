@@ -34,6 +34,8 @@ module.exports = function(api) {
             '@img': './src/img',
             '@css': './src/css',
             '@context': './src/context',
+            '@services': './src/services',
+            '@animations': './src/animations',
           },
         },
       ],

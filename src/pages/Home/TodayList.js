@@ -5,6 +5,7 @@ import {useEffect} from 'react';
 import styles from '@css/listitem.module.css';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useAuth} from '@context/auth';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 export const TodayList = ({navigation}) => {
     const dispatch = useDispatch();
     const state = useSelector(state => state.todo);
@@ -21,7 +22,19 @@ export const TodayList = ({navigation}) => {
             {
                 todayData.map((item, index) => {
                     return (
-                        <View key={index} style={[styles.line, styles.twoCol]}>
+                        <Swipeable key={index} 
+                        renderRightActions={() => (
+                            <View style={[styles.line, styles.twoCol]}>
+                            <TouchableOpacity onPress={() => completeTodoData(item.id)}>
+                                    <Icon name="trash" size={30} color="#ff0000" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => completeTodoData(item.id)}>
+                                    <Icon name="trash" size={30} color="#ff0000" />
+                            </TouchableOpacity>
+                            </View>
+                        )}
+                        >
+                        <View style={[styles.line, styles.twoCol]}>
                             <Text style={styles.timeText}>{item.time}</Text>
                             <View style={styles.details}> 
                                 <Text>{item.title}</Text>
@@ -39,6 +52,7 @@ export const TodayList = ({navigation}) => {
                             }
                         </View>
                         </View>
+                        </Swipeable>
                     )
                 })
             }

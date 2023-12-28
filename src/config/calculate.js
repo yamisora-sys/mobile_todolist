@@ -6,7 +6,8 @@ export function DiffMinutes(date1, date2) {
 
 
 export function DiffMinutesFromNow(date) {
-    let diff = (new Date().getTime() - date.getTime()) / 1000;
+    let time = new Date(date);
+    let diff = (new Date().getTime() - time.getTime()) / 1000;
     diff /= 60;
     return Math.abs(Math.round(diff));
 }

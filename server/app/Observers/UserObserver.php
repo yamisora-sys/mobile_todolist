@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class UserObserver
 {
-    public function creating(User $model)
+    public function created(User $model)
     {
         if ($model->birthday != null) {
             $currentYear = Carbon::now()->year;
@@ -16,7 +16,7 @@ class UserObserver
             TodoList::create([
                 'user_id' => $model->id,
                 'title' => 'Birthday',
-                'description' => 'Happy birthday to you',
+                'details' => 'Happy birthday to you',
                 'start_time' => $model->birthday,
                 'repeat_type_id' => 4,
                 'repeat_every' => 1,
@@ -27,8 +27,8 @@ class UserObserver
                 TodoList::create([
                     'user_id' => $model->id,
                     'title' => 'Birthday',
-                    'description' => 'Happy birthday to you',
-                    'start_time' => $model->birthday,
+                    'details' => 'Happy birthday to you',
+                    'start_time' => $birthday,
                     'repeat_type_id' => 4,
                     'repeat_every' => 1,
                     'is_completed' => false,

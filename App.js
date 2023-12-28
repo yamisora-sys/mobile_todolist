@@ -19,6 +19,7 @@ import AuthScreen from '@pages/Auth';
 import {TodaySchedule} from '@pages/Home/TodaySchedule';
 import {AddTodo} from '@pages/Todo/AddTodo';
 import {TodayList} from '@pages/Home/TodayList';
+import {RingContainer} from '@animations/Ring';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -59,6 +60,7 @@ const BottomTab = () => {
         <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Icon name="home" size={25} color="#900" />,
          headerShown: false, 
         }}/>
+        <Tab.Screen name="Ring" component={RingContainer} options={{ tabBarIcon: () => <Icon name="bell" size={25} color="#900" />}}/>
         <Tab.Screen name="Journal" component={Journal} options={{ tabBarIcon: () => <Icon name="calendar-check-o" size={25} color="#900" />}}/>
         <Tab.Screen name="Daily" component={Daily} options={{ tabBarIcon: () => <Icon name="smile-o" size={25} color="#900" />}}/>
         <Tab.Screen name="Profile" component={Profile} options={{ tabBarIcon: () => <Icon name="user-circle-o" size={25} color="#900" />}}/>

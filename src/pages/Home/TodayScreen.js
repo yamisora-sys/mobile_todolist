@@ -1,21 +1,22 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "@css/home.module.css";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { ProgressChart } from "react-native-chart-kit";
 import { FloatButton } from "@components/FloatButton";
 import Collapsible from "react-native-collapsible";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {completeTodoData, getTodayTodoData} from '@redux/reducer/todoSlice';
 import {useAuth} from '@context/auth';
 import {DiffMinutesFromNow} from '@config/calculate';
-
+import {BellRing} from '@animations/BellRing';
 export const TodayScreen = ({ navigation }) => {
   const state = useSelector((state) => state.todo);
   const { auth, setAuth } = useAuth();
   const { todayProgress, loading, todayData } = state;
   const total = todayData.length;
   const completed = todayData.filter((item) => item.completed == 1).length;
+
   // get the first incomplete task
   const Incomplete = todayData.find((item) =>{
     let check = total - completed;
@@ -35,7 +36,7 @@ export const TodayScreen = ({ navigation }) => {
       return item;
     }
   });
-  const remindTask = todayData.filter((item) => {
+  const remindTask = todayData.find((item) => {
     // remind_time >0 and completed == 0
     if(item.remind_time > 0 && item.completed == 0){
       let check = DiffMinutesFromNow(item.start_time);
@@ -58,17 +59,15 @@ export const TodayScreen = ({ navigation }) => {
         dispatch(completeTodoData(id));
         await dispatch(getTodayTodoData(auth.id));
     }
-
-
   return (
     <View style={styles.container}>
       <Collapsible collapsed={remindTask ? false : true} align="center">
         <View style={styles.remind}>
-          <View>
+        <BellRing />
+          <View>  
             <Text style={styles.titleText}>Remind</Text>
             <View style={styles.status}>
-              <Icon name="bell" size={25} color="#ffffff" />
-              <Text>{remindTask ? remindTask[0].title : ""}</Text>
+              <Text>{remindTask != null ? remindTask.title : ""}</Text>
             </View>
           </View>
           <View style={styles.taskList}>
