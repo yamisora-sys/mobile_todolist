@@ -37,3 +37,6 @@ Route::get("get-daily-todo/{user_id}", [TodoController::class, "getDailyTodos"])
 Route::get("get-repeat-type", [RepeatController::class, "getRepeatType"]);
 Route::get("get-today-todo/{user_id}", [TodoController::class, "getTodayTodos"]);
 Route::get("complete-todo/{id}", [TodoController::class, "completeTodo"]);
+Route::get("uncomplete-todo/{id}", [TodoController::class, "uncompleteTodo"]);
+
+Route::post("update-user", [UserController::class, "updateUser"]);

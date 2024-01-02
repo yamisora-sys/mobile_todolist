@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\RepeatType;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class TodoList extends Model
 {
     use HasFactory;
+    // use SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -31,5 +32,10 @@ class TodoList extends Model
     public function repeatType()
     {
         return $this->belongsTo(RepeatType::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

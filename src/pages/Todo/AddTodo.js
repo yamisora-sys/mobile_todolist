@@ -19,7 +19,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { FormatDateTime } from "@config/format.js";
 import SelectDropdown from "react-native-select-dropdown";
 import { getRepeatTypeData } from "@redux/reducer/todoSlice";
+import {useRoute} from '@react-navigation/native';
 export const AddTodo = ({ navigation }) => {
+  const route = useRoute();
+  console.log(route)
   const remindValue =[
     {
       name: "Không nhắc nhở",
@@ -62,6 +65,12 @@ export const AddTodo = ({ navigation }) => {
     category_id: null,
     remind_time: 0,
   });
+  // if(route.name == "EditTodo"){
+  //   setData(
+  //     ...data,
+  //     route.params.data
+  //   )
+  // }
 
   //   const [repeat, setRepeat] = useState(false);
   //   const [repeatId, setRepeatId] = useState(null);
@@ -102,6 +111,8 @@ export const AddTodo = ({ navigation }) => {
     }
     setData({ ...data, repeat: text });
   };
+
+  
   return (
     <View style={styles.container}>
       <View style={styles.twoCol}>
@@ -151,7 +162,7 @@ export const AddTodo = ({ navigation }) => {
         <TouchableOpacity onPress={() => setShowTime(true)}>
           <Text style={styles.input}>
             {" "}
-            {data.start_time ? data.start_time : "Chua co gio bat dau"}
+            {data.start_time ? FormatDateTime(currentDate).split(" ")[1] : "Chua co gio bat dau"}
           </Text>
         </TouchableOpacity>
         {showTime && (

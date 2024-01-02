@@ -28,6 +28,7 @@ return new class extends Migration
             // $table->boolean('remind')->default(false);
             $table->integer('remind_time')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

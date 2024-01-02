@@ -1,0 +1,32 @@
+.container{
+    flex: 1;
+    padding: 20px;
+    background-color: aliceblue;
+}
+
+.analytic{
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.analyticItem{
+    flex: 1;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+.analyticItemHeader{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.analyticItemText{
+    font-size: 18px;
+    font-weight: bold;
+}

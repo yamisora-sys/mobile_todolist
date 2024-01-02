@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { getTodo, createTodo, completeTodo, getRepeatType, getTodayTodo, getTodayProgress, getUserTodoByDate, getCategory } from '@api/ToDoAPI';
+import { getTodo, createTodo, completeTodo, getRepeatType, getTodayTodo, getTodayProgress, getUserTodoByDate, getCategory, uncompleteTodo } from '@api/ToDoAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getTodoData = createAsyncThunk(
@@ -69,6 +69,14 @@ export const getCategoryData = createAsyncThunk(
         const result = await getCategory().then((res) => res);
         return result;
     })
+
+export const uncompleteTodoData = createAsyncThunk(
+    'todo/uncomplete',
+    async (id, thunkAPI) => {
+        const result = await uncompleteTodo(id).then((res) => res);
+        return result;
+    }
+)
 
 const initialState = {
     todoData: [],

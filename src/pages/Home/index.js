@@ -11,6 +11,7 @@ import {
   getTodayProgressData,
   calculateTodayProgress,
   getCategoryData,
+  getTodoData
 } from "@redux/reducer/todoSlice";
 import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@context/auth";
@@ -19,7 +20,7 @@ import { TodayScreen } from "@pages/Home/TodayScreen";
 import { TodaySchedule } from "@pages/Home/TodaySchedule";
 import { useFocusEffect } from "@react-navigation/native";
 import {FloatButton} from '@components/FloatButton';
-const Stack = createStackNavigator();
+import { AllTodoScreen } from "../Todo/AllTodo";
 const TopTab = createMaterialTopTabNavigator();
 
 export default function HomeScreen({navigation}) {
@@ -30,6 +31,7 @@ export default function HomeScreen({navigation}) {
   const fetchData = useCallback(() => {
     dispatch(getTodayTodoData(auth.id));
     dispatch(getTodayProgressData(auth.id));
+    dispatch(getTodoData(auth.id));
   });
   useEffect(() => {
     dispatch(getCategoryData());
@@ -72,7 +74,7 @@ export default function HomeScreen({navigation}) {
         }}
       >
         <TopTab.Screen name="Today" component={TodayScreen} />
-        <TopTab.Screen name="All" component={DailyScreen} />
+        <TopTab.Screen name="All" component={AllTodoScreen} />
         {
           category.map((item, index) => {
             return (
@@ -85,7 +87,7 @@ export default function HomeScreen({navigation}) {
   );
 }
 
-function DailyScreen() {
+function DailyScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.daily}>

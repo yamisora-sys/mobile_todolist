@@ -7,6 +7,7 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    
     //user authentication
     public function login(Request $request){
         $user = User::where('username', $request->username)->first();

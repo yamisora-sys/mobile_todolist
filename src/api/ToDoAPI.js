@@ -62,3 +62,9 @@ export const getCategory = async () => {
         .then((response) => response.json())
     return result;
 }
+
+export const uncompleteTodo = async (id) => {
+    const result = fetch(baseURL + `uncomplete-todo/${id}`)
+        .then((response) => response.json())
+    return result;
+}

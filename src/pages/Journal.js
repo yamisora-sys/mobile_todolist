@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {useEffect, useState, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -8,7 +8,8 @@ import {useAuth} from '@context/auth';
 import {Loading} from '@components/Loading';
 import {getTime} from '@config/format.js';
 import {useFocusEffect} from '@react-navigation/native';
-export default function Journal() {
+
+export default function Journal({navigation}) {
     const [selected, setSelected] = useState(new Date());
     const dispatch = useDispatch();
     const {auth, setAuth} = useAuth();
@@ -29,7 +30,7 @@ export default function Journal() {
         return data;
     }
     useEffect(() => {
-        
+        setMarkDate(getTodoDataByDate());
     }, []);
     useFocusEffect(
         useCallback(() => {
@@ -66,6 +67,17 @@ export default function Journal() {
                         </View>
                     )
                 })}
+                {
+                    selectedEvent == null && (
+                        <TouchableOpacity style={{backgroundColor: '#ff00d4', padding: 10, margin: 10}} onPress={() => navigation.navigate('AddTodo', params={
+                            data: {
+                                start_time: selected.dateString
+                            }
+                        })}>
+                            <Text style={{color: '#fff'}}>Add Todo</Text>
+                        </TouchableOpacity>
+                    )
+                }
                 </View>
         </View>
         </ImageBackground>

@@ -29,3 +29,15 @@ export const Register = async (data) =>{
     }).then((response) => response.json())
     return result;
 }
+
+export const Update = async (data) =>{
+    console.log(data);
+    const result = fetch(baseURL + 'update-user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json())
+    return result;
+}

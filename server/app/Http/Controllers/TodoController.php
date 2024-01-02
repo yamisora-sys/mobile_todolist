@@ -16,10 +16,29 @@ class TodoController extends Controller
     }
     public function getTodo(Request $request){
         $todos = TodoList::where('user_id', $request->user_id)->orderBy('start_time', 'desc')->get();
+        // return todos and category name
+        $todos = $todos->map(function($todo){
+            return [
+                "id" => $todo->id,
+                "title" => $todo->title,
+                "details" => $todo->details,
+                "completed" => $todo->completed,
+                "remind_time" => $todo->remind_time,
+                "start_time" => $todo->start_time,
+                "category" => $todo->category ? $todo->category->name : null,
+                "category_id" => $todo->category_id,
+                "start_time" => $todo->start_time,
+                "repeat" => $todo->repeat,
+                "repeat_type_id" => $todo->repeat_type_id,
+                "repeat_every" => $todo->repeat_every,
+                "parent_id" => $todo->parent_id,
+                "imageURL" => $todo->imageURL,
+            ];
+        });
         return response()->json([
             'status' => 'success',
             'message' => 'Get todo successfully',
-            'data' => $todos
+            'data' => $todos    
         ]);
     }
     public function getScheduledTodos(Request $request){
@@ -63,7 +82,8 @@ class TodoController extends Controller
         $todo->repeat_type_id = $request->repeat_type_id;
         $todo->start_time = Carbon::parse($request->start_time);
         $todo->repeat_every = $request->repeat_every;
-        
+        $todo->category_id = $request->category_id;
+        $todo->remind_time = $request->remind_time;
         $todo->save();
         return response()->json([
             'status' => 'success',
@@ -112,6 +132,11 @@ class TodoController extends Controller
                 "lineColor" => $todo->completed ? "#00FF00" : "#FF0000",
                 "remind_time" => $todo->remind_time,
                 "start_time" => $todo->start_time,
+                "category_id" => $todo->category_id,
+                "repeat" => $todo->repeat,
+                "repeat_type_id" => $todo->repeat_type_id,
+                "repeat_every" => $todo->repeat_every,
+                "details" => $todo->details,
             ];
         });
         return response()->json([
@@ -148,32 +173,55 @@ class TodoController extends Controller
             'status' => 'success',
             'message' => 'Get todo successfully',
             'data' => [
-                'labels' => ['completed', 'not completed'],
-                'data' => [$progress, round(1 - $progress, 2)]
+                'labels' => ['completed'],
+                'data' => [$progress]
             ]
         ]);
     }
 
     public function CalculateCompletedTodoInWeek (Request $request) {
-        $currentStartDay = Carbon::now()->startOfWeek()->format('Y-m-d H:i:s'); // 00:00:00 of current day
-        // 23:59:59 of current day
-        $currentDayEnd = Carbon::now()->endOfWeek()->format('Y-m-d H:i:s');
-        $todos = TodoList::where('user_id', $request->user_id)->whereBetween('start_time', [$currentStartDay, $currentDayEnd])
-        ->orderBy('start_time', 'asc');
-        $completed = $todos->where('completed', true);
-        // count completed todo each day
-        $completed = $completed->get()->groupBy(function($todo){
+        $startOfWeek = Carbon::now()->startOfWeek()->format('Y-m-d H:i:s');
+        $endOfWeek = Carbon::now()->endOfWeek()->format('Y-m-d H:i:s');
+        $todos = TodoList::where('user_id', $request->user_id)->whereBetween('start_time', [$startOfWeek, $endOfWeek])
+        ->orderBy('start_time', 'asc')->get();
+        // group by start_time
+        $todos = $todos->groupBy(function($todo){
             return Carbon::parse($todo->start_time)->format('Y-m-d');
         });
-        $completed = $completed->map(function($todo){
-            return $todo->count();
+        // count completed todo in each day
+        $todos = $todos->map(function($todo){
+            $completed = $todo->where('completed', true)->count();
+            return $completed;
         });
-
         return response()->json([
             'status' => 'success',
             'message' => 'Get todo successfully',
-            'data' => $completed
+            'data' => $todos
+        ]);
+    }
+    
+    public function AnalyticsAllTodoForUser(Request $request){
+        $todos = TodoList::where('user_id', $request->user_id)->orderBy('start_time', 'desc')->get();
+        $total = $todos->count();
+        $completed = $todos->where('completed', true)->count();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Get todo successfully',
+            'data' => [
+                "total" => $total,
+                "completed" => $completed,
+            ]
         ]);
     }
 
+    public function uncompleteTodo (Request $request) {
+        $todo = TodoList::find($request->id);
+        $todo->completed = false;
+        $todo->save();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Uncomplete todo successfully',
+            'data' => $todo
+        ]);
+    }
 }

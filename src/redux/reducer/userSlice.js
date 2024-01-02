@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { Login, Register } from '@api/userAPI';
+import { Login, Register, Update } from '@api/userAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const USER_DATA = 'user';
@@ -52,6 +52,16 @@ export const UserRegister = createAsyncThunk(
     }
 )
 
+export const UserUpdate = createAsyncThunk(
+    'user/update',
+    async (data, thunkAPI) => {
+        console.log(data);
+        const result = await Update(data).then((res) => res);
+        await storeData(USER_DATA, result.data);
+        return result;
+    }
+)
+
 const initialState = {
     user: null,
     loading: false,
@@ -90,6 +100,17 @@ const userSlice = createSlice({
                 state.user = action.payload.data;
             })
             .addCase(UserRegister.rejected, (state, action) => {
+                state.message = action.error.message;
+                state.loading = false;
+            })
+        builder.addCase(UserUpdate.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(UserUpdate.fulfilled, (state, action) => {
+                state.message = action.payload.message;
+                state.user = action.payload.data;
+            })
+            .addCase(UserUpdate.rejected, (state, action) => {
                 state.message = action.error.message;
                 state.loading = false;
             })
