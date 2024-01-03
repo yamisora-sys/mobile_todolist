@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import  Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
@@ -14,7 +14,7 @@ export const AllTodoScreen = ({navigation}) => {
     const completedTodo = todoData.filter((item) => item.completed == 1);
     const uncompletedTodo = todoData.filter((item) => item.completed == 0);
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.analytic}>
                 <View style={styles.analyticItem}>
                     <Icon name="bar-chart-o" size={30} color="#900" />
@@ -47,6 +47,6 @@ export const AllTodoScreen = ({navigation}) => {
                     ))}
                 </CollapsibleList>
                 </View>
-        </View>
+        </ScrollView>
     )
 }

@@ -39,4 +39,6 @@ Route::get("get-today-todo/{user_id}", [TodoController::class, "getTodayTodos"])
 Route::get("complete-todo/{id}", [TodoController::class, "completeTodo"]);
 Route::get("uncomplete-todo/{id}", [TodoController::class, "uncompleteTodo"]);
 
+Route::get('calculate-frequency-in-month/{user_id}', [TodoController::class, 'CalculateFrequencyInMonth']);
+
 Route::post("update-user", [UserController::class, "updateUser"]);

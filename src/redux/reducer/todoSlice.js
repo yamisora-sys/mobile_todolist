@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { getTodo, createTodo, completeTodo, getRepeatType, getTodayTodo, getTodayProgress, getUserTodoByDate, getCategory, uncompleteTodo } from '@api/ToDoAPI';
+import { CalculateFrequencyInMonth, CalculateCompletedTodoInWeek, getTodo, createTodo, completeTodo, getRepeatType, getTodayTodo, getTodayProgress, getUserTodoByDate, getCategory, uncompleteTodo, getDailyTodo } from '@api/ToDoAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export const getTodoData = createAsyncThunk(
     'todo/get',
@@ -45,7 +46,7 @@ export const getTodayTodoData = createAsyncThunk(
 export const getDailyTodoData = createAsyncThunk(
     'todo/daily',
     async (data, thunkAPI) => {
-        const result = await getDailyTodoData(data).then((res) => res);
+        const result = await getDailyTodo(data).then((res) => res);
         return result;
     })
 
@@ -78,6 +79,22 @@ export const uncompleteTodoData = createAsyncThunk(
     }
 )
 
+export const getCompletedTodoInWeekData = createAsyncThunk(
+    'todo/completed-in-week',
+    async (user_id, thunkAPI) => {
+        const result = await CalculateCompletedTodoInWeek(user_id).then((res) => res);
+        return result;
+    }
+)
+
+export const getFrequecyInMonthData = createAsyncThunk(
+    'todo/frequency-in-month',
+    async (user_id, thunkAPI) => {
+        const result = await CalculateFrequencyInMonth(user_id).then((res) => res);
+        return result;
+    }
+)
+
 const initialState = {
     todoData: [],
     repeatType: [],
@@ -92,6 +109,8 @@ const initialState = {
     message: '',
     todoDataByDate: [],
     category: [],
+    completedTodoInWeek: {},
+    frequencyInMonth: [],
 }
 
 const todoSlice = createSlice({
@@ -204,6 +223,29 @@ const todoSlice = createSlice({
             state.category = action.payload.data;
         })
         .addCase(getCategoryData.rejected, (state, action) => {
+            state.error = action.error.message;
+            state.loading = false;
+        })
+        .addCase(getCompletedTodoInWeekData.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(getCompletedTodoInWeekData.fulfilled, (state, action) => {
+            state.loading = false;
+            state.completedTodoInWeek = action.payload.data;
+        })
+        .addCase(getCompletedTodoInWeekData.rejected, (state, action) => {
+            state.error = action.error.message;
+            state.loading = false;
+        })
+        .addCase(getFrequecyInMonthData.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(getFrequecyInMonthData.fulfilled, (state, action) => {
+            state.loading = false;
+            console.log(245, action.payload.data)
+            state.frequencyInMonth = action.payload.data;
+        })
+        .addCase(getFrequecyInMonthData.rejected, (state, action) => {
             state.error = action.error.message;
             state.loading = false;
         })

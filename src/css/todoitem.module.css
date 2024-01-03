@@ -31,9 +31,8 @@
 
 
 .timeText{
-    font-size: 20px;
-    text-align: left;
-    flex-basis: auto;
+    flex-basis: 300;
+    font-size: 16px;
 }
 
 .details{
@@ -41,13 +40,13 @@
     text-align: right;
     color: #ffffff;
     flex-basis: auto;
-    margin-left: 20px;
-    flex-basis: 300;
+    margin-left: 10px;
+    flex-basis: 250;
 }
 
 .displayButton{
     justify-content: left;
-    flex-basis: 50;
+    flex-basis: 30;
 }
 
 

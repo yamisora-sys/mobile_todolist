@@ -180,24 +180,36 @@ class TodoController extends Controller
     }
 
     public function CalculateCompletedTodoInWeek (Request $request) {
-        $startOfWeek = Carbon::now()->startOfWeek()->format('Y-m-d H:i:s');
-        $endOfWeek = Carbon::now()->endOfWeek()->format('Y-m-d H:i:s');
-        $todos = TodoList::where('user_id', $request->user_id)->whereBetween('start_time', [$startOfWeek, $endOfWeek])
-        ->orderBy('start_time', 'asc')->get();
-        // group by start_time
-        $todos = $todos->groupBy(function($todo){
-            return Carbon::parse($todo->start_time)->format('Y-m-d');
-        });
-        // count completed todo in each day
-        $todos = $todos->map(function($todo){
-            $completed = $todo->where('completed', true)->count();
-            return $completed;
-        });
+        $labels = [];
+        $data = [];
+        for ($i = 7; $i >=0; $i--) {
+            $startDay = Carbon::now()->subDays($i)->startOfDay()->format('Y-m-d H:i:s');
+            $endDay = Carbon::now()->subDays($i)->endOfDay()->format('Y-m-d H:i:s');
+            $todos = TodoList::where('user_id', $request->user_id)->whereBetween('start_time', [$startDay, $endDay])
+            ->orderBy('start_time', 'asc')->get();
+            $total = $todos->count();
+            $completed = $todos->where('completed', true)->count();
+            $labels[] = Carbon::now()->subDays($i)->format('D');
+            $data[] = $completed;
+        }
+
         return response()->json([
             'status' => 'success',
             'message' => 'Get todo successfully',
-            'data' => $todos
+            'data' => [
+                'labels' => $labels,
+                // dataset array object
+                'datasets' => [
+                    [
+                        'data' => $data,
+                    ]
+                ]
+            ]
         ]);
+    }
+
+    public function CalculateProgressInWeek (Request $request){
+        
     }
     
     public function AnalyticsAllTodoForUser(Request $request){
@@ -222,6 +234,27 @@ class TodoController extends Controller
             'status' => 'success',
             'message' => 'Uncomplete todo successfully',
             'data' => $todo
+        ]);
+    }
+    public function CalculateFrequencyInMonth (Request $request) {
+        $data = [];
+        for ($i = 30; $i >=0; $i--) {
+            $startDay = Carbon::now()->subDays($i)->startOfDay()->format('Y-m-d H:i:s');
+            $endDay = Carbon::now()->subDays($i)->endOfDay()->format('Y-m-d H:i:s');
+            $todos = TodoList::where('user_id', $request->user_id)->whereBetween('start_time', [$startDay, $endDay])
+            ->orderBy('start_time', 'asc')->get();
+            $total = $todos->count();
+            $completed = $todos->where('completed', true)->count();
+            $data[] = [
+                "date" => Carbon::now()->subDays($i)->format('Y-m-d'),
+                "count" => $completed
+            ];
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Get todo successfully',
+            'data' => $data
         ]);
     }
 }

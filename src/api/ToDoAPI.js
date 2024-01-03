@@ -68,3 +68,16 @@ export const uncompleteTodo = async (id) => {
         .then((response) => response.json())
     return result;
 }
+
+
+export const CalculateCompletedTodoInWeek = async (user_id) => {
+    const result = fetch(baseURL + `calculate-week-complete/${user_id}`)
+        .then((response) => response.json())
+    return result;
+}
+
+export const CalculateFrequencyInMonth = async (user_id) => {
+    const result = fetch(baseURL + `calculate-frequency-in-month/${user_id}`)
+        .then((response) => response.json())
+    return result;
+}

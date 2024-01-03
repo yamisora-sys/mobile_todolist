@@ -1,10 +1,11 @@
 
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Logout} from '@redux/reducer/userSlice';
 import {useDispatch} from 'react-redux';
 import {useAuth} from '@context/auth';
 import {useEffect} from 'react';
+import styles from '@css/profile.module.css';
 export default function Profile({navigation}) {
     const dispatch = useDispatch();
     const {auth, setAuth} = useAuth();
@@ -24,19 +25,21 @@ export default function Profile({navigation}) {
     })
     return (
         <ScrollView style={styles.container}>
-            <View style={styles.setting}>
-                <Icon name="cog" size={25} color="#900" />
-                <TouchableOpacity onPress={handleLogout}>
-                    <Text style={styles.logout}>Logout</Text>
-                </TouchableOpacity>
+            <View style={styles.profile}>
+                <View style={styles.avatarContainer}>
+                    <Icon name="user-circle-o" size={100} color="#900" />
+                </View>
+            </View>
+            <View style={styles.body}>
+                <Text style={styles.label}> Fullname </Text>
+                <Text style={styles.textInput}>{auth.firstname} {auth.lastname}</Text>
+                <Text style={styles.label}> Email </Text>
+                <Text style={styles.textInput}>{auth.email}</Text>
+                <Text style={styles.label}> Username </Text>
+                <Text style={styles.textInput}>{auth.username}</Text>
+                <Text style={styles.label}> Birthday </Text>
+                <Text style={styles.textInput}>{auth.birthday}</Text>
             </View>
         </ScrollView>
     );
     }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-});
