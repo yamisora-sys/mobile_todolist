@@ -81,3 +81,15 @@ export const CalculateFrequencyInMonth = async (user_id) => {
         .then((response) => response.json())
     return result;
 }
+
+export const updateTodo = async (data) => {
+    const result = fetch(baseURL + 'update-todo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify(data),
+    }).then((response) => response.json())
+    return result;
+}

@@ -12,7 +12,7 @@ import styles from "@css/addtodo.module.css";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useState, useEffect } from "react";
 import { Loading } from "@components/Loading";
-import { createTodoData } from "@redux/reducer/todoSlice";
+import { createTodoData,  updateTodoData} from "@redux/reducer/todoSlice";
 import { useAuth } from "@context/auth";
 import { useDispatch, useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -20,9 +20,9 @@ import { FormatDateTime } from "@config/format.js";
 import SelectDropdown from "react-native-select-dropdown";
 import { getRepeatTypeData } from "@redux/reducer/todoSlice";
 import {useRoute} from '@react-navigation/native';
+
 export const AddTodo = ({ navigation }) => {
   const route = useRoute();
-  console.log(route)
   const remindValue =[
     {
       name: "Không nhắc nhở",
@@ -65,12 +65,8 @@ export const AddTodo = ({ navigation }) => {
     category_id: null,
     remind_time: 0,
   });
-  // if(route.name == "EditTodo"){
-  //   setData(
-  //     ...data,
-  //     route.params.data
-  //   )
-  // }
+  const state = useSelector((state) => state.todo);
+  const { todoData } = state;
 
   //   const [repeat, setRepeat] = useState(false);
   //   const [repeatId, setRepeatId] = useState(null);
@@ -84,14 +80,15 @@ export const AddTodo = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleAddTodo = () => {
-    console.log(54, data);
     dispatch(createTodoData(data));
     Alert.alert("Thông báo", message);
     navigation.navigate("Home");
   };
+
   const fetchData = async () => {
     dispatch(getRepeatTypeData());
   };
+  console.log(route)
   useEffect(() => {
     fetchData();
   }, []);
@@ -127,7 +124,7 @@ export const AddTodo = ({ navigation }) => {
         <Icon name="file" size={30} color="#900" />
         <TextInput
           style={styles.input}
-          placeholder="Nhập mo ta"
+          placeholder="Nhập chi tiết"
           onChangeText={(text) => setData({ ...data, details: text })}
         />
       </View>
@@ -218,7 +215,7 @@ export const AddTodo = ({ navigation }) => {
         />
       </View>
       <View style={styles.switch}>
-        <Text>Lap lai</Text>
+        <Text>Lặp lại</Text>
         <Switch
           trackColor={{ false: "#767577", true: "#81b0ff" }}
           thumbColor={data.repeat ? "#f5dd4b" : "#f4f3f4"}
@@ -256,6 +253,7 @@ export const AddTodo = ({ navigation }) => {
             <Icon name="repeat" size={30} color="#900" />
             <TextInput
               style={styles.input}
+              value={data.repeat_every ? data.repeat_every.toString() : ""}
               inputMode="numeric"
               placeholder="Nhập khoảng thời gian lặp lại, mặc định là 1"
               onChangeText={(text) => setData({ ...data, repeat_every: text })}
@@ -265,7 +263,7 @@ export const AddTodo = ({ navigation }) => {
       ) : (
         <View></View>
       )}
-      <TouchableOpacity style={styles.button} onPress={() => handleAddTodo()}>
+          <TouchableOpacity style={styles.button} onPress={() => handleAddTodo()}>
         <Icon name="plus-circle" size={50} color="#900" />
       </TouchableOpacity>
     </View>

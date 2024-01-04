@@ -7,3 +7,9 @@ npm i react-native-collapsible
 react-native-gesture-handler/Swipeable
 
 npm install react-native-push-notification
+
+
+#F875AA
+#FFDFDF
+#FFF6F6
+aliceblue

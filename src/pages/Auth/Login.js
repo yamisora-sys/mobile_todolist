@@ -20,7 +20,6 @@ export default function Login({ navigation }) {
     const handleLogin = async () => {
         await dispatch(UserLogin({ username, password }));
         Alert.alert('Thông báo', message);
-        console.log(user);
     }
 
     useEffect(()=>{

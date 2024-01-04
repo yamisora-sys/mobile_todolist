@@ -21,6 +21,7 @@ import { TodaySchedule } from "@pages/Home/TodaySchedule";
 import { useFocusEffect } from "@react-navigation/native";
 import {FloatButton} from '@components/FloatButton';
 import { AllTodoScreen } from "../Todo/AllTodo";
+import { CategoryScreen } from "../Todo/CategoryScreen";
 const TopTab = createMaterialTopTabNavigator();
 
 export default function HomeScreen({navigation}) {
@@ -52,7 +53,7 @@ export default function HomeScreen({navigation}) {
           swipeEnabled: true,
           tabBarScrollEnabled: true,
           tabBarItemStyle: {
-            backgroundColor: "#ffffff",
+            backgroundColor: "#f8fff0",
             borderRadius: 100,
             borderWidth: 1,
             borderColor: "#ffffff",
@@ -78,44 +79,11 @@ export default function HomeScreen({navigation}) {
         {
           category.map((item, index) => {
             return (
-              <TopTab.Screen name={item.name} component={MyGoalScreen} key={index}/>
+              <TopTab.Screen name={item.name} component={CategoryScreen} key={index}/>
             )
           })
         }
       </TopTab.Navigator>
-    </View>
-  );
-}
-
-function DailyScreen({navigation}) {
-  return (
-    <View style={styles.container}>
-      <View style={styles.daily}>
-        <View style={styles.title}>
-          <Text>Continue your</Text>
-          <Text style={{ fontWeight: "bold", fontSize: 30 }}>
-            Daily Remente
-          </Text>
-        </View>
-        <View>
-          <Text style={styles.more}>
-            <Icon name="chevron-right" size={40} color="#973131" />
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-function MyGoalScreen() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.mygoal}>
-        <View style={styles.head}>
-          <Text style={styles.titleText}>My Goal</Text>
-          <Text style={{ color: "#0066ff", fontSize: 25 }}>See more</Text>
-        </View>
-      </View>
     </View>
   );
 }

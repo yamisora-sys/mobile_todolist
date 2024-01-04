@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { completeTodoData, getTodayTodoData, uncompleteTodoData } from "@redux/reducer/todoSlice";
 import { useAuth } from "@context/auth";
 
-export const TodayItem = ({ item }) => {
+export const TodayItem = ({ item, navigation }) => {
     const dispatch = useDispatch();
     const {auth, setAuth} = useAuth();
     const checkTodo = async (id) => {
@@ -32,7 +32,9 @@ export const TodayItem = ({ item }) => {
           </TouchableOpacity>
             )
           }
-          <TouchableOpacity  style={styles.swiperEdit}>
+          <TouchableOpacity  style={styles.swiperEdit} onPress={()=>{
+              navigation.navigate('EditTodo', {id: item.id});
+          }}>
             <Icon name="edit" size={30} color="#ffffff" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.swiperDelete}>

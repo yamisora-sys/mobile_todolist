@@ -12,18 +12,17 @@ import HomeScreen from '@pages/Home';
 import Journal from '@pages/Journal';
 import Daily from '@pages/Daily';
 import Profile from '@pages/Profile/Profile';
-import Todo from '@pages/Todo/ToDo.js';
 import AuthScreen from '@pages/Auth';
 import {TodaySchedule} from '@pages/Home/TodaySchedule';
 import {AddTodo} from '@pages/Todo/AddTodo';
 import {TodayList} from '@pages/Home/TodayList';
-import {RingContainer} from '@animations/Ring';
+import { AddTodo2 } from '@pages/Todo/AddTodo2';
 import {TextRuning} from '@animations/TextRuning';
 import { Introduction } from '@pages/Introduction';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 import {Loading} from '@components/Loading';
-import {AllTodoScreen} from '@pages/Todo/AllTodo';
+import { EditTodo } from '@pages/Todo/EditTodo';
 import { WelcomeScreen } from '@pages/Welcome';
 export default function App() {
   const [firstrun, setFirstrun] = useState(true);
@@ -31,7 +30,6 @@ export default function App() {
     try {
       // AsyncStorage.setItem('firstime', 'true');
       const value = await AsyncStorage.getItem('firstime');
-      console.log(value);
       return value;
     } catch(e) {
       console.log(e);
@@ -77,8 +75,9 @@ export default function App() {
                 <Stack.Screen name="BottomTab" component={BottomTab} options={{headerShown: false}}/>
                 <Stack.Screen name="TodaySchedule" component={TodaySchedule} options={{headerShown: true}}/>
                 <Stack.Screen name="AddTodo" component={AddTodo} options={{headerShown: true}}/>
-                <Stack.Screen name="EditTodo" component={AddTodo} options={{headerShown: true}}/>
+                <Stack.Screen name="EditTodo" component={EditTodo} options={{headerShown: true}}/>
                 <Stack.Screen name="TodayList" component={TodayList} options={{headerShown: true}}/>
+                <Stack.Screen name="AddTodo2" component={AddTodo2} options={{headerShown: true}}/>
                 </>
               )}
             </Stack.Navigator>

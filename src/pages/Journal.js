@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {useEffect, useState, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -8,7 +8,9 @@ import {useAuth} from '@context/auth';
 import {Loading} from '@components/Loading';
 import {getTime} from '@config/format.js';
 import {useFocusEffect} from '@react-navigation/native';
-
+import {FloatButton} from '@components/FloatButton';
+import {FormatDateTime} from '@config/format.js';
+import styles from '@css/scheduled.module.css';
 export default function Journal({navigation}) {
     const [selected, setSelected] = useState(new Date());
     const dispatch = useDispatch();
@@ -57,30 +59,30 @@ export default function Journal({navigation}) {
                 color: '#fff'
             }}
             />
-            <View style={{marginTop: 20}}>
+            <ScrollView contentContainerStyle={styles.eventContainer}>
                 {selectedEvent && selectedEvent.map((item, index) => {
                     return (
-                        <View key={index} style={{backgroundColor: '#ff00d4', padding: 10, margin: 10}}>
-                            <Text style={{color: '#fff'}}>{item.title}</Text>
-                            <Text style={{color: '#fff'}}>{item.details}</Text>
-                            <Text style={{color: '#fff'}}>{getTime(item.start_time)}</Text>
+                        <View key={index} style={styles.eventItem}>
+                            <View>
+                            <Text style={styles.eventText}>{item.title}</Text>
+                            <Text style={styles.eventText}>{item.details}</Text>
+                            </View>
+                            <Text style={styles.eventText}>{getTime(item.start_time)}</Text>
                         </View>
                     )
                 })}
                 {
                     selectedEvent == null && (
-                        <TouchableOpacity style={{backgroundColor: '#ff00d4', padding: 10, margin: 10}} onPress={() => navigation.navigate('AddTodo', params={
-                            data: {
-                                start_time: selected.dateString
-                            }
-                        })}>
-                            <Text style={{color: '#fff'}}>Add Todo</Text>
-                        </TouchableOpacity>
+                        <View style={styles.noEvent}>
+                            <Text style={styles.eventText}>No Event</Text>
+                        </View>
                     )
                 }
-                </View>
+                </ScrollView>
         </View>
+        <FloatButton navigation={navigation} route="AddTodo2" params={{
+            date: selected.dateString + " 00:00"
+        }} />
         </ImageBackground>
     );
 }
-

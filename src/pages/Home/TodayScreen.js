@@ -65,13 +65,10 @@ export const TodayScreen = ({ navigation }) => {
         <View style={styles.remind}>
         <BellRing />
           <View>  
-            <Text style={styles.titleText}>Remind</Text>
-            <View style={styles.status}>
-              <Text>{remindTask != null ? remindTask.title : ""}</Text>
+            <Text style={styles.remindTitle}>Nhắc nhở: Sắp đến giờ hẹn</Text>
+            <View>
+              <Text  style={styles.remindText}>{remindTask != null ? remindTask.title : ""}</Text>
             </View>
-          </View>
-          <View style={styles.taskList}>
-            <Icon name="chevron-right" size={40} color="#ffffff" />
           </View>
         </View>
       </Collapsible>
@@ -79,42 +76,42 @@ export const TodayScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("TodayList")}>
         <View style={styles.listtask}>
           <View>
-            <Text style={styles.titleText}>Today's task</Text>
+            <Text style={styles.titleText}>Công việc hôm nay</Text>
             <View style={styles.status}>
-              <Icon name="check-circle" size={25} color="#ffffff" />
+              <Icon name="check-circle" size={25} color="white" />
               {completed == total ? (
-                <Text>Đã hoàn thành toàn bộ công việc hôm nay</Text>
+                <Text style={styles.detailText}>Đã hoàn thành toàn bộ công việc hôm nay</Text>
               ) : (
-                <Text>{total - completed} task remaining</Text>
+                <Text style={styles.detailText}>Đã hòan thành {total - completed}</Text>
               )}
             </View>
           </View>
           <View style={styles.taskList}>
-            <Icon name="chevron-right" size={40} color="#ffffff" />
+            <Icon name="chevron-right" size={40} color="white" />
           </View>
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={toggleExpanded}>
       <View style={styles.inprogress}>
         <View>
-          <Text style={styles.titleText}>Inprogress</Text>
+          <Text style={styles.titleText}>Đang thực hiện</Text>
           <View style={styles.status}>
-            <Icon name="clock-o" size={25} color="#ffffff" />
-            <Text>{Incomplete ? Incomplete.title : "No task inprogress"}</Text>
+            <Icon name="clock-o" size={25} color="white" />
+            <Text style={styles.detailText}>{Incomplete ? Incomplete.title : "Không có công việc"}</Text>
           </View>
         </View>
         <View style={styles.taskList}>
-          <Icon name="clock-o" size={40} color="#ffffff" />
+          <Icon name="clock-o" size={40} color="white" />
         </View>
       </View>
       <Collapsible collapsed={collapsed} align="center">
         <View style={styles.collapsible}>
-        <Icon name="info-circle" size={20} color="#ffffff"/>
+        <Icon name="info-circle" size={20} color="white"/>
           <Text style={styles.detailText}>{Incomplete ? Incomplete.description : ""}</Text>
           {
                 Incomplete ? (
                     <TouchableOpacity onPress={() => completeTodo(Incomplete.id)}>
-                        <Icon name="check-circle" size={20} color="green" />
+                        <Icon name="check-circle" size={20} color="#00DFA2" />
                     </TouchableOpacity>
                 ) : (
                     <Text></Text>
@@ -126,19 +123,19 @@ export const TodayScreen = ({ navigation }) => {
         <TouchableOpacity onPress={toggleExpanded2}>
       <View style={styles.incoming}>
         <View>
-          <Text style={styles.titleText}>Coming</Text>
+          <Text style={styles.titleText}>Sắp tới</Text>
           <View style={styles.status}>
-            <Icon name="calendar-o" size={25} color="#ffffff" />
-            <Text>{Coming ? Coming.title : "No task coming"}</Text>
+            <Icon name="calendar-o" size={25} color="white" />
+            <Text style={styles.detailText}>{Coming ? Coming.title : "Không có công việc"}</Text>
           </View>
         </View>
         <View style={styles.taskList}>
-          <Icon name="chevron-right" size={40} color="#ffffff" />
+          <Icon name="chevron-right" size={40} color="white" />
         </View>
       </View>
         <Collapsible collapsed={collapsed2} align="center">
         <View style={styles.collapsible}>
-        <Icon name="info-circle" size={20} color="#ffffff"/>
+        <Icon name="info-circle" size={20} color="white"/>
           <Text style={styles.detailText}>{Coming ? Coming.description : ""}</Text>
         </View>
         </Collapsible>
@@ -156,9 +153,9 @@ export const TodayScreen = ({ navigation }) => {
               strokeWidth={16}
               radius={32}
               chartConfig={{
-                backgroundColor: "#ffffff",
-                backgroundGradientFrom: "#ffffff",
-                backgroundGradientTo: "#ffffff",
+                backgroundColor: "#FFFFFF",
+                backgroundGradientFrom: "#FFFFFF",
+                backgroundGradientTo: "#FFFFFF",
                 decimalPlaces: 2,
                 color: (opacity = 1) => `rgba(255, 105, 180, ${opacity})`,
                 style: {

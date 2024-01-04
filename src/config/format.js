@@ -35,3 +35,9 @@ export const FormatDatetimeDMYHM = (date) => {
 
     return `${day}/${month}/${year} ${hour}:${minute}`;
 }
+
+// convert 20-10-2021 to 2021-10-20
+export const convertDate = (date) => {
+    let d = date.split('-');
+    return `${d[2]}-${d[1]}-${d[0]}`;
+}

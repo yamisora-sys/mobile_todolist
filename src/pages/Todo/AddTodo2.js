@@ -20,7 +20,8 @@ import {
   import SelectDropdown from "react-native-select-dropdown";
   import { getRepeatTypeData } from "@redux/reducer/todoSlice";
   import {useRoute} from '@react-navigation/native';
-  export const EditTodo = ({ navigation }) => {
+  
+  export const AddTodo2 = ({ navigation }) => {
     const route = useRoute();
     const remindValue =[
       {
@@ -48,7 +49,8 @@ import {
         value: 60,
       }
     ]
-    const [currentDate, setCurrentDate] = useState(new Date());
+    const [currentDate, setCurrentDate] = useState(new Date(route.params.date));
+    console.log(route.params.date)
     const { auth, setAuth } = useAuth();
     const [showDate, setShowDate] = useState(false);
     const [showTime, setShowTime] = useState(false);
@@ -66,14 +68,20 @@ import {
     });
     const state = useSelector((state) => state.todo);
     const { todoData } = state;
+  
+    //   const [repeat, setRepeat] = useState(false);
+    //   const [repeatId, setRepeatId] = useState(null);
+    //   const [repeatEvery, setRepeatEvery] = useState(null);
+    //   const [categoryId, setCategoryId] = useState(null);
+    //   const [title, setTitle] = useState("");
+    //   const [details, setDetails] = useState("");
     const { loading, error, message, repeatType, category } = useSelector(
       (state) => state.todo
     );
     const dispatch = useDispatch();
   
-  
-    const updateTodo = async () => {
-      await dispatch(updateTodoData(data));
+    const handleAddTodo = () => {
+      dispatch(createTodoData(data));
       Alert.alert("Thông báo", message);
       navigation.navigate("Home");
     };
@@ -81,22 +89,8 @@ import {
     const fetchData = async () => {
       dispatch(getRepeatTypeData());
     };
+    console.log(route)
     useEffect(() => {
-        if(route.name == "EditTodo"){
-              let res = todoData.find((item) => item.id == route.params.id);
-              if(res){
-                setCurrentDate(new Date(res.start_time))
-                let remindIndex = remindValue.findIndex((item) => item.value == res.remind_time);
-                let repeatIndex = repeatType.findIndex((item) => item.id == res.repeat_type_id);
-                let categoryIndex = category.findIndex((item) => item.id == res.category_id);
-                setData({
-                    ...res,
-                    remindIndex,
-                    repeatIndex,
-                    categoryIndex,
-                })
-            }
-          }
       fetchData();
     }, []);
     const switchRepeat = (text) => {
@@ -115,17 +109,14 @@ import {
       }
       setData({ ...data, repeat: text });
     };
-    console.log(category)
-    if (loading) {
-      return <Loading />;
-    }
+  
+    
     return (
       <View style={styles.container}>
         <View style={styles.twoCol}>
           <Icon name="file" size={30} color="#900" />
           <TextInput
             style={styles.input}
-            value={data.title}
             placeholder="Nhập tiêu đề"
             onChangeText={(text) => setData({ ...data, title: text })}
           />
@@ -134,7 +125,6 @@ import {
           <Icon name="file" size={30} color="#900" />
           <TextInput
             style={styles.input}
-            value={data.details}
             placeholder="Nhập mo ta"
             onChangeText={(text) => setData({ ...data, details: text })}
           />
@@ -193,7 +183,6 @@ import {
           <Icon name="bell" size={30} color="#900" />
           <SelectDropdown
             data={remindValue}
-            defaultValueByIndex={data.remindIndex}
             onSelect={(selectedItem, index) => {
               setData({ ...data, remind_time: selectedItem.value });
             }}
@@ -212,7 +201,6 @@ import {
           <Icon name="list-ul" size={30} color="#900" />
           <SelectDropdown
             data={category}
-            defaultValueByIndex={data.categoryIndex}
             onSelect={(selectedItem, index) => {
               // setData({...data, category_id: selectedItem.id})
               setData({ ...data, category_id: selectedItem.id });
@@ -228,7 +216,7 @@ import {
           />
         </View>
         <View style={styles.switch}>
-          <Text>Lap lai</Text>
+          <Text>Lặp lại</Text>
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
             thumbColor={data.repeat ? "#f5dd4b" : "#f4f3f4"}
@@ -243,7 +231,6 @@ import {
               <Icon name="repeat" size={30} color="#900" />
               <SelectDropdown
                 data={repeatType}
-                defaultValueByIndex={data.repeatIndex}
                 onSelect={(selectedItem, index) => {
                   setData({
                     ...data,
@@ -267,9 +254,7 @@ import {
               <Icon name="repeat" size={30} color="#900" />
               <TextInput
                 style={styles.input}
-                value={
-                    data.repeat_every ? data.repeat_every.toString() : "1"
-                }
+                value={data.repeat_every ? data.repeat_every.toString() : ""}
                 inputMode="numeric"
                 placeholder="Nhập khoảng thời gian lặp lại, mặc định là 1"
                 onChangeText={(text) => setData({ ...data, repeat_every: text })}
@@ -279,9 +264,9 @@ import {
         ) : (
           <View></View>
         )}
-          <TouchableOpacity style={styles.button} onPress={() => updateTodo()}>
-              <Icon name="edit" size={50} color="#900" />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => handleAddTodo()}>
+          <Icon name="plus-circle" size={50} color="#900" />
+        </TouchableOpacity>
       </View>
     );
   };

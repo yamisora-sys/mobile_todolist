@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { CalculateFrequencyInMonth, CalculateCompletedTodoInWeek, getTodo, createTodo, completeTodo, getRepeatType, getTodayTodo, getTodayProgress, getUserTodoByDate, getCategory, uncompleteTodo, getDailyTodo } from '@api/ToDoAPI';
+import { updateTodo,CalculateFrequencyInMonth, CalculateCompletedTodoInWeek, getTodo, createTodo, completeTodo, getRepeatType, getTodayTodo, getTodayProgress, getUserTodoByDate, getCategory, uncompleteTodo, getDailyTodo } from '@api/ToDoAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
@@ -95,6 +95,14 @@ export const getFrequecyInMonthData = createAsyncThunk(
     }
 )
 
+export const updateTodoData = createAsyncThunk(
+    'todo/update',
+    async (data, thunkAPI) => {
+        const result = await updateTodo(data).then((res) => res);
+        return result;
+    }
+)
+
 const initialState = {
     todoData: [],
     repeatType: [],
@@ -109,7 +117,7 @@ const initialState = {
     message: '',
     todoDataByDate: [],
     category: [],
-    completedTodoInWeek: {},
+    completedTodoInWeek: null,
     frequencyInMonth: [],
 }
 
@@ -242,10 +250,31 @@ const todoSlice = createSlice({
         })
         .addCase(getFrequecyInMonthData.fulfilled, (state, action) => {
             state.loading = false;
-            console.log(245, action.payload.data)
             state.frequencyInMonth = action.payload.data;
         })
         .addCase(getFrequecyInMonthData.rejected, (state, action) => {
+            state.error = action.error.message;
+            state.loading = false;
+        })
+        .addCase(uncompleteTodoData.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(uncompleteTodoData.fulfilled, (state, action) => {
+            state.loading = false;
+            state.message = action.payload.message;
+        })
+        .addCase(uncompleteTodoData.rejected, (state, action) => {
+            state.error = action.error.message;
+            state.loading = false;
+        })
+        .addCase(updateTodoData.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(updateTodoData.fulfilled, (state, action) => {
+            state.loading = false;
+            state.message = action.payload.message;
+        })
+        .addCase(updateTodoData.rejected, (state, action) => {
             state.error = action.error.message;
             state.loading = false;
         })

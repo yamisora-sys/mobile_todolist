@@ -1,4 +1,4 @@
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import  Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
@@ -33,7 +33,7 @@ export const AllTodoScreen = ({navigation}) => {
                     isCollapsed={false}
                 >
                     {completedTodo.map((item, index) => (
-                        <TodoItem item={item} key={index}/>
+                        <TodoItem item={item} key={index} navigation={navigation}/>
                     ))}
                 </CollapsibleList>
             </View>
@@ -43,7 +43,7 @@ export const AllTodoScreen = ({navigation}) => {
                     isCollapsed={false}
                 >
                     {uncompletedTodo.map((item, index) => (
-                        <TodoItem item={item} key={index}/>
+                        <TodoItem item={item} key={index} navigation={navigation}/>
                     ))}
                 </CollapsibleList>
                 </View>
