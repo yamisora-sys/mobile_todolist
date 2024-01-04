@@ -62,7 +62,7 @@ export default function Journal({navigation}) {
             <ScrollView contentContainerStyle={styles.eventContainer}>
                 {selectedEvent && selectedEvent.map((item, index) => {
                     return (
-                        <View key={index} style={styles.eventItem}>
+                        <View key={index} style={[styles.eventItem, item.completed&&styles.completeEvent]}>
                             <View>
                             <Text style={styles.eventText}>{item.title}</Text>
                             <Text style={styles.eventText}>{item.details}</Text>
@@ -74,7 +74,7 @@ export default function Journal({navigation}) {
                 {
                     selectedEvent == null && (
                         <View style={styles.noEvent}>
-                            <Text style={styles.eventText}>No Event</Text>
+                            <Text style={styles.eventText}>Không có sự kiện</Text>
                         </View>
                     )
                 }

@@ -11,3 +11,9 @@ export function DiffMinutesFromNow(date) {
     diff /= 60;
     return Math.abs(Math.round(diff));
 }
+
+export function DiffSecondsFromNow(date) {
+    let time = new Date(date);
+    let diff = (new Date().getTime() - time.getTime()) / 1000;
+    return Math.round(diff);
+}

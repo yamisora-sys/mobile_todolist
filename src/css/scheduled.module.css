@@ -25,6 +25,11 @@
     align-items: center;
 }
 
+.completeEvent{
+    background-color: rgba(0, 223, 162, 0.6);
+
+}
+
 .eventText{
     color: white;
     font-size: 16px;

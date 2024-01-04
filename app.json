@@ -43,6 +43,21 @@
         "svg",
         "css"
       ]
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#ffffff",
+          "mode": "production"
+        }
+      ]
+    ],
+    "extra": {
+      "eas":{
+        "projectId": "358a9ee3-c96a-441a-a448-5787fba568d0"
+      }
     }
   }
 }

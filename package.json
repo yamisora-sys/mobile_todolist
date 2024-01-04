@@ -22,6 +22,7 @@
     "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
     "color": "^4.2.3",
     "expo": "~49.0.15",
+    "expo-notifications": "~0.20.1",
     "expo-splash-screen": "~0.20.5",
     "expo-sqlite": "~11.3.3",
     "expo-status-bar": "~1.6.0",
@@ -52,10 +53,17 @@
     "react-native-vector-icons": "^10.0.1",
     "react-redux": "^9.0.4",
     "redux": "^4.2.1",
-    "styled-components": "^6.1.0"
+    "styled-components": "^6.1.0",
+    "expo-device": "~5.4.0",
+    "expo-constants": "~14.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
+  },
+  "expo-yarn-workspaces": {
+    "symlinks":[
+      "expo-constants"
+    ]
   },
   "private": true
 }

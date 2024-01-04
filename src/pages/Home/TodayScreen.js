@@ -8,8 +8,9 @@ import Collapsible from "react-native-collapsible";
 import { useState, useEffect, useRef } from "react";
 import {completeTodoData, getTodayTodoData} from '@redux/reducer/todoSlice';
 import {useAuth} from '@context/auth';
-import {DiffMinutesFromNow} from '@config/calculate';
+import {DiffMinutesFromNow, DiffSecondsFromNow} from '@config/calculate';
 import {BellRing} from '@animations/BellRing';
+import {schedulePushNotification} from '@config/notification';
 export const TodayScreen = ({ navigation }) => {
   const state = useSelector((state) => state.todo);
   const { auth, setAuth } = useAuth();
@@ -45,6 +46,24 @@ export const TodayScreen = ({ navigation }) => {
       }
     }
   });
+
+  useEffect(() => {
+    let remindList = todayData.filter((item) => {
+      return item.remind_time > 0 && item.completed == 0;
+    })
+    if(remindList.length > 0){
+      remindList.forEach((item) => {
+        let check = DiffSecondsFromNow(item.start_time) + item.remind_time * 60;
+          if(check <=0) {
+            shedulePushNotification("Nhắc nhở công việc sắp tới", item.title, Math.abs(check));
+          }
+          else{
+            schedulePushNotification("Bạn đã hoàn thành công việc chưa", item.title, 0);
+          }
+      })
+    }
+  }, []);
+
   const [collapsed, setCollapsed] = useState(true);
   const toggleExpanded = () => {
     setCollapsed(!collapsed);

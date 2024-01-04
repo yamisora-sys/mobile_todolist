@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Provider} from 'react-redux';
 import {store} from '@redux/store';
 import {AuthConsumer, AuthProvider} from '@context/auth';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeScreen from '@pages/Home';
 import Journal from '@pages/Journal';
@@ -24,8 +24,17 @@ const Tab = createBottomTabNavigator();
 import {Loading} from '@components/Loading';
 import { EditTodo } from '@pages/Todo/EditTodo';
 import { WelcomeScreen } from '@pages/Welcome';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 export default function App() {
   const [firstrun, setFirstrun] = useState(true);
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
   const firstime = async () => {
     try {
       // AsyncStorage.setItem('firstime', 'true');
@@ -35,6 +44,7 @@ export default function App() {
       console.log(e);
     }
   }
+
   const [welcome, setWelcome] = useState(true);
   useEffect(() => {
     firstime().then((res) => {
@@ -45,22 +55,35 @@ export default function App() {
         setFirstrun(false);
       }
     })
-    if(firstrun == false) {
-      setTimeout(() => {
-        setWelcome(false);
-      }, 2000)
-    }
-  })
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+    // if(firstrun == false) {
+    //   setTimeout(() => {
+    //     setWelcome(false);
+    //   }, 2000)
+    // }
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, [])
   if(firstrun) {
     return (
       <Introduction changeState={setFirstrun}/>
     )
   }
-  if(welcome) {
-    return (
-      <WelcomeScreen/>
-    )
-  }
+  // if(welcome) {
+  //   return (
+  //     <WelcomeScreen/>
+  //   )
+  // }
   return (
     <Provider store={store}>
     <NavigationContainer>
@@ -103,4 +126,38 @@ const BottomTab = () => {
       }}/>
       </Tab.Navigator>
   )
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    // Learn more about projectId:
+    // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
+    token = (await Notifications.getExpoPushTokenAsync({ projectId: Constants.expoConfig.extra.eas.projectId, })).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
 }
