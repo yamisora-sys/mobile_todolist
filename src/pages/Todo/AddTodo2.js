@@ -50,7 +50,6 @@ import {
       }
     ]
     const [currentDate, setCurrentDate] = useState(new Date(route.params.date));
-    console.log(route.params.date)
     const { auth, setAuth } = useAuth();
     const [showDate, setShowDate] = useState(false);
     const [showTime, setShowTime] = useState(false);
@@ -82,14 +81,15 @@ import {
   
     const handleAddTodo = () => {
       dispatch(createTodoData(data));
-      Alert.alert("Thông báo", message);
-      navigation.navigate("Home");
+      // Alert.alert("Thông báo", message);
+      // navigation.navigate("Home");
+      // back to history screen
+      navigation.goBack();
     };
   
     const fetchData = async () => {
       dispatch(getRepeatTypeData());
     };
-    console.log(route)
     useEffect(() => {
       fetchData();
     }, []);

@@ -1,6 +1,23 @@
 import { API_URL } from "@env";
 const baseURL = API_URL;
 
+const api = (url, method, data) => {
+    const result = fetch(baseURL + url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify(data),
+    });
+    if (result.ok) {
+        return result.json();
+    }
+    else {
+        return Promise.reject(result);
+    }
+}
+
 export const getTodo = async (user_id) => {
     const result = fetch(baseURL + `get-todo/${user_id}`)
         .then((response) => response.json())
@@ -16,6 +33,12 @@ export const createTodo = async (data) => {
 
         body: JSON.stringify(data),
     }).then((response) => response.json())
+    .then((res) =>{
+        if(res.status=="error"){
+            return Promise.reject(res.message);
+        }
+        return res
+    })
     return result;
 }
 

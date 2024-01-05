@@ -12,7 +12,7 @@ import styles from "@css/addtodo.module.css";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useState, useEffect } from "react";
 import { Loading } from "@components/Loading";
-import { createTodoData,  updateTodoData} from "@redux/reducer/todoSlice";
+import { createTodoData,  updateTodoData, ClearError, ClearMessage} from "@redux/reducer/todoSlice";
 import { useAuth } from "@context/auth";
 import { useDispatch, useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -20,6 +20,7 @@ import { FormatDateTime } from "@config/format.js";
 import SelectDropdown from "react-native-select-dropdown";
 import { getRepeatTypeData } from "@redux/reducer/todoSlice";
 import {useRoute} from '@react-navigation/native';
+import ToastManager, {Toast} from "toastify-react-native";
 
 export const AddTodo = ({ navigation }) => {
   const route = useRoute();
@@ -80,9 +81,18 @@ export const AddTodo = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleAddTodo = () => {
-    dispatch(createTodoData(data));
-    Alert.alert("Thông báo", message);
-    navigation.navigate("Home");
+    Toast.error('Vui long nhap title va chi tiet', 'bottom');
+    if(data.title == '' && data.details == ''){
+      Toast.error('Vui long nhap title va chi tiet', 'bottom');
+    }
+    else{
+      console.log("submit success");
+      dispatch(createTodoData(data));
+      // navigation.navigate("Home");
+      navigation.goBack();
+    }
+    // Alert.alert("Thông báo", message);
+    // navigation.navigate("Home");
   };
 
   const fetchData = async () => {
@@ -90,6 +100,10 @@ export const AddTodo = ({ navigation }) => {
   };
   console.log(route)
   useEffect(() => {
+    if(error){
+      Toast.error(error.message, 'top');
+      dispatch(ClearError());
+    }
     fetchData();
   }, []);
   const switchRepeat = (text) => {
@@ -112,6 +126,7 @@ export const AddTodo = ({ navigation }) => {
   
   return (
     <View style={styles.container}>
+      <ToastManager />
       <View style={styles.twoCol}>
         <Icon name="file" size={30} color="#900" />
         <TextInput

@@ -24,7 +24,8 @@ export default function Profile({navigation}) {
         });
     })
     return (
-        <ScrollView style={styles.container}>
+        auth && (
+            <ScrollView style={styles.container}>
             <View style={styles.profile}>
                 <View style={styles.avatarContainer}>
                     <Icon name="user-circle-o" size={100} color="#900" />
@@ -40,6 +41,12 @@ export default function Profile({navigation}) {
                 <Text style={styles.label}> Birthday </Text>
                 <Text style={styles.textInput}>{auth.birthday}</Text>
             </View>
+            <TouchableOpacity onPress={handleLogout}>
+                <View style={styles.logout}>
+                    <Text style={styles.logoutText}>Đăng xuất</Text>
+                </View>
+            </TouchableOpacity>
         </ScrollView>
+        )
     );
     }

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView }
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {useEffect, useState, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {getUserTodoByDateData} from '@redux/reducer/todoSlice';
+import {getUserTodoByDateData, ClearMessage} from '@redux/reducer/todoSlice';
 import {useAuth} from '@context/auth';
 import {Loading} from '@components/Loading';
 import {getTime} from '@config/format.js';
@@ -11,6 +11,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {FloatButton} from '@components/FloatButton';
 import {FormatDateTime} from '@config/format.js';
 import styles from '@css/scheduled.module.css';
+import ToastManager, {Toast} from 'toastify-react-native';
 export default function Journal({navigation}) {
     const [selected, setSelected] = useState(new Date());
     const dispatch = useDispatch();
@@ -33,6 +34,10 @@ export default function Journal({navigation}) {
     }
     useEffect(() => {
         setMarkDate(getTodoDataByDate());
+        if(message) {
+            Toast.success(message, 'top');
+            dispatch(ClearMessage());
+        }
     }, []);
     useFocusEffect(
         useCallback(() => {
@@ -42,6 +47,7 @@ export default function Journal({navigation}) {
     );
     return (
         <ImageBackground source={require('@img/bg3.jpg')} style={{width: '100%', height: '100%'}}>
+        <ToastManager position="top" />
         <View>
             <Calendar 
             onDayPress={(day) => (

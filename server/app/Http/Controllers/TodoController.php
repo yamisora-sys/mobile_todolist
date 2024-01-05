@@ -67,6 +67,14 @@ class TodoController extends Controller
         $todo->category_id = $request->category_id;
         $todo->remind_time = $request->remind_time;
         $todo->save();
+        // if error
+        if(!$todo){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Add todo failed',
+                'data' => null
+            ]);
+        }
         return response()->json([
             'status' => 'success',
             'message' => 'Add todo successfully',
@@ -137,7 +145,13 @@ class TodoController extends Controller
                 "repeat_type_id" => $todo->repeat_type_id,
                 "repeat_every" => $todo->repeat_every,
                 "details" => $todo->details,
+                "push_notification" => $todo->push_notification,
             ];
+        });
+        // set all $todos push_notification to true
+        $todos->map(function($todo){
+            $todo->push_notification = true;
+            $todo->save();
         });
         return response()->json([
             'status' => 'success',

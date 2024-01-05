@@ -6,15 +6,17 @@ import { ProgressChart } from "react-native-chart-kit";
 import { FloatButton } from "@components/FloatButton";
 import Collapsible from "react-native-collapsible";
 import { useState, useEffect, useRef } from "react";
-import {completeTodoData, getTodayTodoData} from '@redux/reducer/todoSlice';
+import {completeTodoData, getTodayTodoData, ClearMessage} from '@redux/reducer/todoSlice';
 import {useAuth} from '@context/auth';
 import {DiffMinutesFromNow, DiffSecondsFromNow} from '@config/calculate';
 import {BellRing} from '@animations/BellRing';
-import {schedulePushNotification} from '@config/notification';
+import {schedulePushNotification, nowPushNotification} from '@config/notification';
+import ToastManager, {Toast} from 'toastify-react-native';
+
 export const TodayScreen = ({ navigation }) => {
   const state = useSelector((state) => state.todo);
   const { auth, setAuth } = useAuth();
-  const { todayProgress, loading, todayData } = state;
+  const { todayProgress, loading, todayData, message } = state;
   const total = todayData.length;
   const completed = todayData.filter((item) => item.completed == 1).length;
 
@@ -49,18 +51,22 @@ export const TodayScreen = ({ navigation }) => {
 
   useEffect(() => {
     let remindList = todayData.filter((item) => {
-      return item.remind_time > 0 && item.completed == 0;
+      return item.remind_time > 0 && item.completed == 0 && item.push_notification == 0;
     })
     if(remindList.length > 0){
       remindList.forEach((item) => {
         let check = DiffSecondsFromNow(item.start_time) + item.remind_time * 60;
           if(check <=0) {
-            shedulePushNotification("Nhắc nhở công việc sắp tới", item.title, Math.abs(check));
+            schedulePushNotification("Nhắc nhở công việc sắp tới", item.title, Math.abs(check));
           }
           else{
-            schedulePushNotification("Bạn đã hoàn thành công việc chưa", item.title, 0);
+            nowPushNotification("Bạn đã hoàn thành công việc chưa", item.title);
           }
       })
+    }
+    if(message != ""){
+      Toast.success(message, 'top');
+      dispatch(ClearMessage());
     }
   }, []);
 
@@ -80,6 +86,7 @@ export const TodayScreen = ({ navigation }) => {
     }
   return (
     <View style={styles.container}>
+      <ToastManager />
       <Collapsible collapsed={remindTask ? false : true} align="center">
         <View style={styles.remind}>
         <BellRing />
@@ -101,7 +108,7 @@ export const TodayScreen = ({ navigation }) => {
               {completed == total ? (
                 <Text style={styles.detailText}>Đã hoàn thành toàn bộ công việc hôm nay</Text>
               ) : (
-                <Text style={styles.detailText}>Đã hòan thành {total - completed}</Text>
+                <Text style={styles.detailText}>Đã hòan thành {completed}/{total}</Text>
               )}
             </View>
           </View>

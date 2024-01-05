@@ -4,9 +4,9 @@ import {View, Text} from 'react-native';
 const slides = [
     {
         key: 1,
-        title: 'Title 1',
-        text: 'Description.\nSay something cool',
-        image: require('@img/welcome.gif'),
+        title: 'Chào mừng bạn đến Todo App',
+        text: 'Đây là ứng dụng quản lý công việc',
+        image: require('@img/bg3.jpg'),
         backgroundColor: '#59b2ab',
     },
     {

@@ -32,6 +32,7 @@ class RepeatTask extends Command
             foreach ($todos as $todo) {
                 $repeatType = $todo->repeatType()->name;
                 $newTodo = $todo->replicate();
+                $newTodo->push_notification = false;
                 switch ($repeatType) {
                     case 'Daily':
                         $newTodo->start_time = Carbon::parse($todo->start_time)->addDays($todo->reapeat_every);

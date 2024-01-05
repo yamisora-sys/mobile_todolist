@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } fro
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '@css/login.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { UserLogin, Logout } from '@redux/reducer/userSlice';
+import { UserLogin, Logout, ClearError, ClearMessage } from '@redux/reducer/userSlice';
 import { Loading } from '@components/Loading';
 import { useAuth } from '@context/auth';
-
+import ToastManager, { Toast } from 'toastify-react-native';
 export default function Login({ navigation }) {
 
     const [username, setUserName] = useState('');
@@ -18,18 +18,27 @@ export default function Login({ navigation }) {
     const {user, loading, error, message} = state;
 
     const handleLogin = async () => {
-        await dispatch(UserLogin({ username, password }));
-        Alert.alert('Thông báo', message);
+        dispatch(UserLogin({ username, password }));
+        // Alert.alert('Thông báo', message);
     }
 
     useEffect(()=>{
         if(user != null){
             setAuth(user);
         }
+        if(error){
+            Toast.error(error.message, 'top');
+            dispatch(ClearError());
+        }
+        else if(message){
+            Toast.success(message, 'top');
+            dispatch(ClearMessage());
+        }
     })
-    if (loading) return <Loading />
+    // if (loading) return <Loading />
     return (
         <View style={styles.container}>
+            <ToastManager position="top" />
             <View style={styles.logo}>
                 <Image source={require('@img/logo.jpg')}/>
             </View>

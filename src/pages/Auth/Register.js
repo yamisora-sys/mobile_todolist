@@ -7,10 +7,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '@css/login.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {useAuth} from '@context/auth';
-import {UserRegister} from '@redux/reducer/userSlice';
+import {UserRegister, ClearError, ClearMessage} from '@redux/reducer/userSlice';
 import {Loading} from '@components/Loading';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FormatDateTime, getDate } from '@config/format.js';
+import ToastManager, {Toast} from 'toastify-react-native';
+
 export default function Register({ navigation }) {
         const [firstname, setFirstName] = useState('');
         const [lastname, setLastName] = useState('');
@@ -26,17 +28,20 @@ export default function Register({ navigation }) {
         const {user, loading, error, message} = state;
         const handleRegister = async () => {
             if(firstname == '' || lastname == '' || username == '' || email == '' || password == '' || birthday == ''){
-                Alert.alert('Thông báo', 'Vui lòng nhập đầy đủ thông tin');
+                // Alert.alert('Thông báo', 'Vui lòng nhập đầy đủ thông tin');
+                Toast.error('Vui lòng nhập đầy đủ thông tin', 'top');
                 return;
             }
             if(password.length < 3){
-                Alert.alert('Thông báo', 'Mật khẩu phải có ít nhất 3 ký tự');
+                Toast.error('Mật khẩu phải có ít nhất 3 ký tự', 'top');
+                // Alert.alert('Thông báo', 'Mật khẩu phải có ít nhất 3 ký tự');
                 return;
             }
             // check email
             const regex = /\S+@\S+\.\S+/;
             if(!regex.test(email)){
-                Alert.alert('Thông báo', 'Email không hợp lệ');
+                Toast.error('Email không hợp lệ', 'top');
+                // Alert.alert('Thông báo', 'Email không hợp lệ');
                 return;
             }
             let data = {
@@ -54,11 +59,20 @@ export default function Register({ navigation }) {
             if(user != null){
                 setAuth(user);
             }
+
+            if(error){
+                Toast.error(error, 'top');
+                dispatch(ClearError());
+            }
+            if (message){
+                Toast.success(message, 'top');
+                dispatch(ClearMessage());
+            }
         })
-        console.log(message)
-        if (loading) return <Loading />
+
         return (
             <View style={styles.container}>
+                <ToastManager position="top-center" />
                 <View style={styles.logo}>
                     {/* <Image source={require('@assets/logo.png')} style={{width: 200, height: 200}}/> */}
                 </View>

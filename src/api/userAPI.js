@@ -14,6 +14,12 @@ export const Login = async (username, password) => {
             password,
         }),
     }).then((response) => response.json())
+    .then((res) =>{
+        if(res.status=="error"){
+            return Promise.reject(res.message);
+        }
+        return res
+    })
     return result;
 }
 
@@ -26,6 +32,12 @@ export const Register = async (data) =>{
         },
         body: JSON.stringify(data),
     }).then((response) => response.json())
+    .then((res) =>{
+        if(res.status=="error"){
+            return Promise.reject(res.message);
+        }
+        return res
+    })
     return result;
 }
 

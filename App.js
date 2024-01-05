@@ -27,6 +27,17 @@ import { WelcomeScreen } from '@pages/Welcome';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
+import ToastManager, {Toast} from 'toastify-react-native';
+import { schedulePushNotification, customPushNotification} from '@config/notification';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 export default function App() {
   const [firstrun, setFirstrun] = useState(true);
 
@@ -49,6 +60,24 @@ export default function App() {
   useEffect(() => {
     firstime().then((res) => {
       if(res == null || res == 'true') {
+        if(Device.osName == "IOS") {
+          customPushNotification("Hãy bắt đầu ngày mới với những điều tốt đẹp nhất nhé!", "Hãy truy cập vào ứng dụng để kiểm tra công việc hôm nay nào", {
+            DailyTriggerInput: {
+              hour: 6,
+              minute: 0,
+              repeats: true
+            }
+          })
+          if(Device.osName == "Android"){
+            customPushNotification("Hãy bắt đầu ngày mới với những điều tốt đẹp nhất nhé!", "Hãy truy cập vào ứng dụng để kiểm tra công việc hôm nay nào", {
+              DailyNotificationTrigger:{
+                hour: 6,
+                minute: 0,
+                repeats: true
+              }
+            })
+          }
+        }
         setFirstrun(true);
       }
       else {
@@ -79,6 +108,7 @@ export default function App() {
       <Introduction changeState={setFirstrun}/>
     )
   }
+  
   // if(welcome) {
   //   return (
   //     <WelcomeScreen/>

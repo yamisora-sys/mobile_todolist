@@ -125,7 +125,13 @@ const todoSlice = createSlice({
     name: 'todo',
     initialState: initialState,
     reducers: {
-        calculateTodayProgress: (state) => {}
+        calculateTodayProgress: (state) => {},
+        ClearError: (state) => {
+            state.error = null;
+        },
+        ClearMessage: (state) => {
+            state.message = '';
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -135,11 +141,10 @@ const todoSlice = createSlice({
         .addCase(getTodoData.fulfilled, (state, action) => {
             state.loading = false;
             state.todoData = action.payload.data;
-            state.message = action.payload.message;
+            // state.message = action.payload.message;
         })
         .addCase(getTodoData.rejected, (state, action) => {
-            state.error = action.error.message;
-            state.message = action.error.message;
+            state.error = action.error;
             state.loading = false;
         })
         .addCase(createTodoData.pending, (state) => {
@@ -150,14 +155,14 @@ const todoSlice = createSlice({
             state.message = action.payload.message;
         })
         .addCase(createTodoData.rejected, (state, action) => {
-            state.message = action.error.message;
+            state.error = action.error;
             state.loading = false;
         })
         .addCase(completeTodoData.pending, (state) => {
             state.loading = true;
         })
         .addCase(completeTodoData.fulfilled, (state, action) => {
-            state.message = action.payload.message;
+            // state.message = action.payload.message;
             // let id = action.payload.data.id;
             // let index = state.todoData.findIndex((item) => item.id == id);
             // state.todoData[index].completed = true;
@@ -165,7 +170,7 @@ const todoSlice = createSlice({
             // state.todayData[index2].completed = true;
         })
         .addCase(completeTodoData.rejected, (state, action) => {
-            state.message = action.error.message;
+            state.error = action.error;
             state.loading = false;
         })
         .addCase(getRepeatTypeData.pending, (state) => {
@@ -261,7 +266,7 @@ const todoSlice = createSlice({
         })
         .addCase(uncompleteTodoData.fulfilled, (state, action) => {
             state.loading = false;
-            state.message = action.payload.message;
+            // state.message = action.payload.message;
         })
         .addCase(uncompleteTodoData.rejected, (state, action) => {
             state.error = action.error.message;
@@ -272,7 +277,7 @@ const todoSlice = createSlice({
         })
         .addCase(updateTodoData.fulfilled, (state, action) => {
             state.loading = false;
-            state.message = action.payload.message;
+            // state.message = action.payload.message;
         })
         .addCase(updateTodoData.rejected, (state, action) => {
             state.error = action.error.message;
@@ -281,6 +286,6 @@ const todoSlice = createSlice({
     }
 })
 
-export const {calculateTodayProgress} = todoSlice.actions;
+export const {calculateTodayProgress, ClearError, ClearMessage} = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -75,7 +75,14 @@ const userSlice = createSlice({
     reducers: {
         Logout: (state) => {
             state.user = null;
+            storeData(USER_DATA, null);
         },
+        ClearError: (state) => {
+            state.error = null;
+        },
+        ClearMessage: (state) => {
+            state.message = '';
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -88,8 +95,7 @@ const userSlice = createSlice({
                 state.message = action.payload.message;
             })
             .addCase(UserLogin.rejected, (state, action) => {
-                state.error = action.error.message;
-                state.message = action.error.message;
+                state.error = action.error;
                 state.loading = false;
             });
         builder.addCase(UserRegister.pending, (state) => {
@@ -100,7 +106,7 @@ const userSlice = createSlice({
                 state.user = action.payload.data;
             })
             .addCase(UserRegister.rejected, (state, action) => {
-                state.message = action.error.message;
+                state.error = action.error;
                 state.loading = false;
             })
         builder.addCase(UserUpdate.pending, (state) => {
@@ -111,11 +117,11 @@ const userSlice = createSlice({
                 state.user = action.payload.data;
             })
             .addCase(UserUpdate.rejected, (state, action) => {
-                state.message = action.error.message;
+                state.error = action.error;
                 state.loading = false;
             })
     },
 })
 
-export const {Logout} = userSlice.actions;
+export const {Logout, ClearError, ClearMessage} = userSlice.actions;
 export default userSlice.reducer;
