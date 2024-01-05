@@ -29,6 +29,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import ToastManager, {Toast} from 'toastify-react-native';
 import { schedulePushNotification, customPushNotification} from '@config/notification';
+import { EditProfile } from '@pages/Profile/EditProfile';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -130,7 +131,8 @@ export default function App() {
                 <Stack.Screen name="AddTodo" component={AddTodo} options={{headerShown: true}}/>
                 <Stack.Screen name="EditTodo" component={EditTodo} options={{headerShown: true}}/>
                 <Stack.Screen name="TodayList" component={TodayList} options={{headerShown: true}}/>
-                <Stack.Screen name="AddTodo2" component={AddTodo2} options={{headerShown: true}}/>
+                <Stack.Screen name="Add Todo" component={AddTodo2} options={{headerShown: true}}/>
+                <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: true}}/>
                 </>
               )}
             </Stack.Navigator>

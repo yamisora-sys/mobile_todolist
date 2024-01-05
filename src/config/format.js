@@ -35,6 +35,13 @@ export const FormatDatetimeDMYHM = (date) => {
 
     return `${day}/${month}/${year} ${hour}:${minute}`;
 }
+export const FormatDateDMY = (date) => {
+    let d = new Date(date);
+    let day = d.getDate();
+    let month = d.getMonth() + 1;
+    let year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+}
 
 // convert 20-10-2021 to 2021-10-20
 export const convertDate = (date) => {

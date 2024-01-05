@@ -86,7 +86,7 @@ export default function Journal({navigation}) {
                 }
                 </ScrollView>
         </View>
-        <FloatButton navigation={navigation} route="AddTodo2" params={{
+        <FloatButton navigation={navigation} route="Add Todo" params={{
             date: selected.dateString + " 00:00"
         }} />
         </ImageBackground>

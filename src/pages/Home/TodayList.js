@@ -23,7 +23,7 @@ export const TodayList = ({navigation}) => {
             {
                 todayData.map((item, index) => {
                     return (
-                        <TodayItem item={item} navigation={navigation}/>
+                        <TodayItem key={index} item={item} navigation={navigation}/>
                     )
                 })
             }

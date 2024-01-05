@@ -1,0 +1,36 @@
+.container{
+    flex: 1;
+    padding: 20px;
+    background-color: aliceblue;
+}
+
+.headerText{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    align-items: center;
+    text-align: center;
+}
+
+.inputView{
+    height: 40px;
+    width: 100%;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: #ff0055;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+    background-color: white;
+}
+
+
+.button{
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff0055;
+    margin-top: 20px;
+}

@@ -30,7 +30,7 @@ export default function Login({ navigation }) {
             Toast.error(error.message, 'top');
             dispatch(ClearError());
         }
-        else if(message){
+        if(message){
             Toast.success(message, 'top');
             dispatch(ClearMessage());
         }
